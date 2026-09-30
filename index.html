@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RH Quest · 12 UCs do Curso de Recursos Humanos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  :root {
+    --green: #58cc02; --green-dark: #46a302; --green-light: #89e219;
+    --blue: #1cb0f6; --purple: #ce82ff; --orange: #ff9600;
+    --red: #ff4b4b; --gold: #ffc800; --pink: #ff86d0;
+    --bg: #131f24; --bg-dark: #0f191d; --bg-card: #1a2b32; --bg-hover: #223840;
+    --border: #2d4750; --text: #f1f7fb; --text-dim: #8ba6b0; --text-mute: #5a7580;
+    --r: 16px; --r-sm: 12px;
+  }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Nunito', system-ui, sans-serif; font-weight: 700; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  ::-webkit-scrollbar { width:8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  button { font-family: 'Nunito', sans-serif; cursor: pointer; border: none; }
+
+  .topbar { position: sticky; top: 0; z-index: 200; background: var(--bg-dark); border-bottom: 2px solid var(--border); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 900; color: var(--purple); letter-spacing: -0.5px; cursor: pointer; }
+  .brand .owl { font-size: 26px; }
+  .stats { display: flex; gap: 4px; align-items: center; }
+  .stat { display: flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 800; padding: 6px 10px; border-radius: 10px; transition: background .2s; }
+  .stat:hover { background: var(--bg-hover); }
+  .stat .ico { font-size: 18px; }
+  .stat.streak { color: var(--orange); }
+  .stat.hearts { color: var(--red); }
+  .stat.gems { color: var(--blue); }
+  .stat.xp { color: var(--gold); }
+  .stat.level { color: var(--purple); }
+
+  .shell { max-width: 780px; margin: 0 auto; padding: 16px 12px 120px; }
+  .hero { background: linear-gradient(135deg, var(--bg-card), var(--bg-hover)); border: 2px solid var(--border); border-radius: var(--r); padding: 20px 22px; margin-bottom: 24px; position: relative; overflow: hidden; display: flex; align-items: center; gap: 16px; }
+  .hero::before { content:''; position:absolute; right:-60px; top:-60px; width: 220px; height: 220px; background: radial-gradient(circle, rgba(206,130,255,0.18) 0%, transparent 70%); }
+  .hero-owl { font-size: 64px; animation: bob 3s ease-in-out infinite; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
+  .hero-info { flex: 1; position: relative; z-index: 1; min-width:0; }
+  .hero-info h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .hero-info p { font-size: 13px; color: var(--text-dim); margin-bottom: 12px; }
+  .league-bar { display: flex; align-items: center; gap: 10px; background: var(--bg-dark); border: 2px solid var(--border); border-radius: 999px; padding: 6px 14px 6px 6px; font-size: 12px; font-weight: 800; width: fit-content; }
+  .league-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; background: var(--bg-card); }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+
+  .section-label { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-mute); margin: 28px 0 16px; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content:''; flex: 1; height: 2px; background: var(--border); border-radius: 2px; }
+
+  .trail { position: relative; padding: 0 8px; }
+  .trail-node { position: relative; display: flex; align-items: center; gap: 18px; padding: 12px 0; cursor: pointer; }
+  .trail-node.right { flex-direction: row-reverse; text-align: right; }
+  .node-circle { width: 76px; height: 76px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; position: relative; border-bottom: 6px solid rgba(0,0,0,0.3); transition: transform .15s; }
+  .node-circle:hover { transform: scale(1.05); }
+  .node-circle:active { transform: scale(0.95); }
+  .node-circle.locked { background: var(--bg-dark); border: 3px solid var(--border); border-bottom-width: 6px; color: var(--text-mute); font-size: 26px; }
+  .node-circle.available { background: linear-gradient(180deg, var(--green-light), var(--green)); color: #fff; animation: bob 2s ease-in-out infinite; }
+  .node-circle.available::before { content:''; position:absolute; inset:-8px; border-radius: 50%; background: radial-gradient(circle, rgba(88,204,2,0.4) 0%, transparent 65%); z-index: -1; animation: pulse 2s ease-in-out infinite; }
+  .node-circle.completed { background: linear-gradient(180deg, var(--gold), #e0b000); color: #fff; }
+  .node-circle.completed::after { content: '✓'; position: absolute; bottom: -4px; right: -4px; width: 28px; height: 28px; background: var(--green); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; border: 3px solid var(--bg-dark); }
+  .node-circle.crown { background: linear-gradient(180deg, #ffd94a, #ffb800); color: #fff; }
+  .node-circle.crown.locked-crown { background: var(--bg-dark); border: 3px solid var(--border); color: var(--text-mute); }
+  @keyframes pulse { 0%,100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } }
+  .node-info { flex: 1; min-width: 0; }
+  .node-info h3 { font-size: 15px; font-weight: 900; letter-spacing: -0.2px; margin-bottom: 2px; color: var(--text); }
+  .node-info p { font-size: 12px; color: var(--text-dim); font-weight: 700; line-height: 1.3; }
+  .node-tooltip { position: absolute; bottom: calc(100% + 8px); background: var(--bg-dark); border: 2px solid var(--border); border-radius: 10px; padding: 6px 12px; font-size: 11px; font-weight: 800; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 10; }
+  .trail-node.left .node-tooltip { left: 0; }
+  .trail-node.right .node-tooltip { right: 0; }
+  .trail-node:hover .node-tooltip { opacity: 1; }
+  .trail-connector { height: 24px; width: 4px; margin: 0 46px; background: var(--border); border-radius: 2px; opacity: 0.5; }
+  .trail-connector.done { background: var(--green); opacity: 1; }
+
+  .medals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .medal { background: var(--bg-card); border: 2px solid var(--border); border-radius: var(--r-sm); padding: 16px 10px; text-align: center; opacity: 0.4; filter: grayscale(1); transition: all .3s; position: relative; }
+  .medal.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--gold); box-shadow: 0 0 20px rgba(255,200,0,0.15); }
+  .medal.unlocked::after { content:'✨'; position:absolute; top:6px; right:8px; font-size:14px; animation: sparkle 2s ease-in-out infinite; }
+  @keyframes sparkle { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+  .medal-ico { font-size: 32px; margin-bottom: 6px; display: block; }
+  .medal-name { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .medal-desc { font-size: 10px; color: var(--text-mute); font-weight: 700; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: var(--r-sm); font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; color: #fff; border-bottom: 4px solid rgba(0,0,0,0.25); transition: all .1s; user-select: none; }
+  .btn:active:not(:disabled) { transform: translateY(2px); border-bottom-width: 2px; }
+  .btn-green { background: var(--green); }
+  .btn-green:hover:not(:disabled) { background: var(--green-light); }
+  .btn-outline { background: transparent; color: var(--blue); border: 2px solid var(--border); border-bottom-width: 4px; }
+  .btn-outline:hover:not(:disabled) { background: rgba(28,176,246,0.08); }
+  .btn-block { width: 100%; }
+
+  .overlay { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 1000; overflow-y: auto; }
+  .overlay.active { display: block; }
+  .overlay-bar { position: sticky; top: 0; z-index: 10; background: var(--bg-dark); border-bottom: 2px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 14px; }
+  .overlay-close { background: none; color: var(--text-mute); font-size: 30px; font-weight: 400; padding: 0 6px; line-height: 1; transition: color .15s; }
+  .overlay-close:hover { color: var(--red); }
+  .hearts-live { display: flex; align-items: center; gap: 4px; color: var(--red); font-weight: 800; font-size: 17px; }
+  .prog-track { flex: 1; height: 16px; background: var(--bg-card); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); position: relative; }
+  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-light)); transition: width .4s ease; width: 0%; position: relative; }
+  .prog-fill::after { content:''; position:absolute; top: 3px; left: 8px; right: 8px; height: 4px; background: rgba(255,255,255,0.4); border-radius: 2px; }
+  .xp-pill { background: rgba(255,200,0,0.18); color: var(--gold); padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; font-family: monospace; white-space: nowrap; }
+  .lesson-counter { font-size: 12px; font-weight: 800; color: var(--text-mute); white-space: nowrap; }
+  .lesson-body { max-width: 680px; margin: 0 auto; padding: 28px 18px 140px; }
+
+  .theory { background: linear-gradient(135deg, rgba(206,130,255,0.12), rgba(206,130,255,0.03)); border: 2px solid var(--purple); border-radius: var(--r); padding: 22px 24px; margin-bottom: 20px; animation: fadeUp .35s ease; position: relative; }
+  .theory-flag { position: absolute; top: -12px; left: 20px; background: var(--purple); color: #fff; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+  .theory h2 { font-size: 22px; font-weight: 900; letter-spacing: -0.4px; margin: 8px 0 12px; line-height: 1.2; }
+  .theory p.lead { font-size: 15px; font-weight: 700; color: var(--text-dim); line-height: 1.6; margin-bottom: 16px; }
+  .theory ul { list-style: none; padding: 0; }
+  .theory ul li { position: relative; padding: 10px 0 10px 34px; font-size: 14px; font-weight: 700; border-bottom: 1px solid var(--border); line-height: 1.5; color: var(--text); }
+  .theory ul li:last-child { border-bottom: none; }
+  .theory ul li::before { content:'✓'; position:absolute; left: 0; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; background: var(--green); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; box-shadow: 0 2px 0 var(--green-dark); }
+  .theory .exemplo { margin-top: 14px; padding: 12px 16px; background: rgba(255,200,0,0.1); border-left: 4px solid var(--gold); border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--gold); line-height: 1.5; }
+
+  .q-header { font-size: 20px; font-weight: 900; letter-spacing: -0.3px; line-height: 1.35; margin-bottom: 22px; animation: fadeUp .35s ease; white-space: pre-line; }
+  .q-sub { display: block; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-mute); margin-bottom: 8px; }
+  .options { display: flex; flex-direction: column; gap: 12px; animation: fadeUp .35s ease; }
+  .option { background: var(--bg-card); border: 2px solid var(--border); border-bottom: 4px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; font-size: 15px; font-weight: 700; color: var(--text); text-align: left; display: flex; align-items: center; gap: 14px; transition: all .12s; width: 100%; }
+  .option:hover:not(.disabled) { background: var(--bg-hover); border-color: var(--blue); }
+  .option:active:not(.disabled) { transform: translateY(2px); border-bottom-width: 2px; }
+  .option.disabled { cursor: default; }
+  .option-letter { width: 32px; height: 32px; flex-shrink: 0; border-radius: 8px; background: var(--bg-dark); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: monospace; font-size: 13px; font-weight: 900; color: var(--text-dim); }
+  .option.correct { border-color: var(--green); background: rgba(88,204,2,0.12); }
+  .option.correct .option-letter { background: var(--green); color: #fff; border-color: var(--green); }
+  .option.wrong { border-color: var(--red); background: rgba(255,75,75,0.12); }
+  .option.wrong .option-letter { background: var(--red); color: #fff; border-color: var(--red); }
+
+  .feedback { position: fixed; left: 0; right: 0; bottom: 0; padding: 18px; display: none; z-index: 20; animation: slideUp .3s ease; }
+  .feedback.show { display: block; }
+  .feedback.win { background: rgba(88,204,2,0.18); border-top: 3px solid var(--green); backdrop-filter: blur(12px); }
+  .feedback.lose { background: rgba(255,75,75,0.18); border-top: 3px solid var(--red); backdrop-filter: blur(12px); }
+  .feedback-wrap { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .feedback-ico { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #fff; flex-shrink: 0; }
+  .feedback.win .feedback-ico { background: var(--green); box-shadow: 0 3px 0 var(--green-dark); }
+  .feedback.lose .feedback-ico { background: var(--red); box-shadow: 0 3px 0 #e63f3f; }
+  .feedback-text { flex: 1; min-width: 180px; }
+  .feedback-title { font-size: 17px; font-weight: 900; margin-bottom: 2px; }
+  .feedback.win .feedback-title { color: var(--green); }
+  .feedback.lose .feedback-title { color: var(--red); }
+  .feedback-explain { font-size: 13px; color: var(--text-dim); font-weight: 700; line-height: 1.5; }
+  .feedback-btn { padding: 14px 32px; font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border-radius: var(--r-sm); color: #fff; border-bottom: 4px solid rgba(0,0,0,0.25); transition: all .1s; }
+  .feedback-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+  .feedback.win .feedback-btn { background: var(--green); }
+  .feedback.lose .feedback-btn { background: var(--red); }
+
+  .result { text-align: center; padding: 40px 20px; animation: fadeUp .4s ease; }
+  .result-emoji { font-size: 90px; margin-bottom: 8px; display: inline-block; animation: pop .5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .result-title { font-size: 30px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .result-title.win { color: var(--gold); }
+  .result-sub { font-size: 15px; color: var(--text-dim); margin-bottom: 28px; font-weight: 700; }
+  .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 460px; margin: 0 auto 24px; }
+  .result-stat { background: var(--bg-card); border: 2px solid var(--border); border-radius: var(--r-sm); padding: 14px 10px; }
+  .result-stat .v { font-family: monospace; font-size: 24px; font-weight: 900; margin-bottom: 3px; }
+  .result-stat .l { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-mute); font-weight: 900; }
+  .result-stat.g .v { color: var(--gold); }
+  .result-stat.gr .v { color: var(--green); }
+  .result-stat.b .v { color: var(--blue); }
+  .result-actions { display: flex; flex-direction: column; gap: 12px; max-width: 380px; margin: 0 auto; }
+
+  .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
+  .confetti-piece { position: absolute; width: 10px; height: 10px; opacity: 0.9; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+  .toast { position: fixed; top: 74px; left: 50%; transform: translateX(-50%) translateY(-140px); background: var(--bg-card); border: 2px solid var(--green); border-radius: var(--r-sm); padding: 12px 22px; font-size: 14px; font-weight: 800; color: var(--green); z-index: 2000; transition: transform .35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 32px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 8px; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1500; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }
+  .modal-bg.active { display: flex; }
+  .modal { background: var(--bg-card); border: 2px solid var(--border); border-radius: var(--r); padding: 30px 26px; max-width: 400px; width: 100%; text-align: center; animation: pop .35s ease; }
+  .modal-emoji { font-size: 60px; margin-bottom: 8px; display: block; }
+  .modal h2 { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
+  .modal p { font-size: 14px; color: var(--text-dim); font-weight: 700; margin-bottom: 20px; line-height: 1.5; }
+  .modal-stats { display: flex; justify-content: space-around; padding: 16px 0; margin-bottom: 22px; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+  .modal-stat { text-align: center; }
+  .modal-stat .v { font-family: monospace; font-size: 22px; font-weight: 900; color: var(--gold); }
+  .modal-stat .l { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-mute); font-weight: 900; margin-top: 2px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  @keyframes pop { 0% { transform: scale(0.6); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  .shake { animation: shake .35s ease; }
+
+  .splash { position: fixed; inset: 0; background: linear-gradient(180deg, var(--purple) 0%, #a568cc 100%); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity .5s, visibility .5s; }
+  .splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .splash-owl { font-size: 120px; animation: bob 1.6s ease-in-out infinite; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3)); }
+  .splash h1 { font-size: 34px; font-weight: 900; color: #fff; letter-spacing: -1px; text-shadow: 0 3px 0 rgba(0,0,0,0.2); }
+  .splash p { color: rgba(255,255,255,0.85); font-size: 15px; font-weight: 800; text-align: center; padding: 0 40px; max-width: 400px; line-height: 1.5; }
+  .hook{background:linear-gradient(135deg,rgba(255,150,0,.14),rgba(255,150,0,.03));border:2px solid var(--orange);border-radius:var(--r);padding:28px 24px 24px;margin-bottom:20px;position:relative;animation:fadeUp .35s ease}
+  .hook-flag{position:absolute;top:-12px;left:20px;background:var(--orange);color:#fff;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:900}
+  .hook-text{font-size:19px;line-height:1.5;font-weight:800;margin:6px 0 14px}
+  .hook-ask{font-size:13px;color:var(--orange);font-weight:800}
+  .clue{display:none}
+  .clue.on{display:block;animation:fadeUp .3s ease}
+  .unit-head{margin:30px 0 8px;padding:14px 16px;background:var(--bg-card);border:2px solid var(--border);border-radius:var(--r-sm);display:flex;align-items:center;gap:12px}
+  .unit-head .u-ico{font-size:28px}
+  .unit-head .u-name{font-size:16px;font-weight:900}
+  .unit-head .u-txt{font-size:12px;color:var(--text-dim)}
+  .unit-head .u-bar{height:8px;background:var(--bg-dark);border-radius:4px;overflow:hidden;margin-top:6px}
+  .unit-head .u-fill{height:100%;background:var(--green);border-radius:4px;transition:width .4s}
+  .hero-cta{margin-bottom:12px;padding:12px 22px}
+  .level-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .level-tab{background:var(--bg-card);border:2px solid var(--border);border-bottom-width:4px;border-radius:var(--r-sm);padding:12px 6px;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .1s}
+  .level-tab:active{transform:translateY(2px)}
+  .level-tab.active{border-color:var(--lc);background:var(--bg-hover)}
+  .level-tab.locked{opacity:.5}
+  .lt-ico{font-size:26px}.lt-name{font-size:13px;font-weight:900}.lt-prog{font-size:11px;color:var(--text-dim);font-family:monospace}
+  .level-desc{margin-top:12px;font-size:13px;color:var(--text-dim);line-height:1.5}
+  button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="splash" id="splash">
+  <div class="splash-owl">🧑‍💼</div>
+  <h1>RH Quest</h1>
+  <p>As 12 Unidades Curriculares do curso de RH — em forma de jogo</p>
+</div>
+
+<div class="topbar">
+  <div class="brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <span class="owl">🧑‍💼</span><span>RH Quest</span>
+  </div>
+  <div class="stats">
+    <div class="stat streak"><span class="ico">🔥</span><span id="sStreak">0</span></div>
+    <div class="stat hearts"><span class="ico">❤️</span><span id="sHearts">5</span></div>
+    <div class="stat gems"><span class="ico">💎</span><span id="sGems">0</span></div>
+    <div class="stat xp"><span class="ico">⭐</span><span id="sXp">0</span></div>
+    <div class="stat level"><span class="ico">🏆</span><span id="sLevel">1</span></div>
+  </div>
+</div>
+
+<div class="shell">
+  <div class="hero">
+    <div class="hero-owl">🧑‍💼</div>
+    <div class="hero-info">
+      <h1 id="heroGreet">Olá, futuro profissional de RH!</h1>
+      <p id="heroSub">Domine as 12 UCs do curso com lições gamificadas</p>
+      <button class="btn btn-green hero-cta" id="heroCta" onclick="continuarJornada()">Continuar</button>
+      <div class="league-bar">
+        <div class="league-badge" id="leagueIcon">🥉</div>
+        <span id="leagueName">Liga Bronze</span>
+        <span style="color:var(--text-mute);font-family:monospace;" id="leagueXp">0 XP</span>
+      </div>
+    </div>
+  </div>
+  <div class="section-label">🗺️ Escolha seu nível</div>
+  <div id="levels"></div>
+  <div class="trail" id="trail"></div>
+  <div class="section-label" style="margin-top:36px;">🏆 Conquistas</div>
+  <div class="medals-grid" id="medals"></div>
+</div>
+
+<div class="overlay" id="lessonOverlay">
+  <div class="overlay-bar">
+    <button class="overlay-close" onclick="confirmarSaida()">×</button>
+    <div class="hearts-live"><span>❤️</span><span id="liveHearts">5</span></div>
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+    <div class="lesson-counter" id="lessonCounter">0/0</div>
+    <div class="xp-pill" id="xpPill">+0 XP</div>
+  </div>
+  <div class="lesson-body" id="lessonBody"></div>
+  <div class="feedback" id="feedback">
+    <div class="feedback-wrap">
+      <div class="feedback-ico" id="fbIco">✓</div>
+      <div class="feedback-text">
+        <div class="feedback-title" id="fbTitle">Correto!</div>
+        <div class="feedback-explain" id="fbExplain"></div>
+      </div>
+      <button class="feedback-btn" id="fbBtn" onclick="proximaEtapa()">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="welcomeModal">
+  <div class="modal">
+    <span class="modal-emoji">🧑‍💼</span>
+    <h2>Bem-vindo de volta!</h2>
+    <p>Continue sua ofensiva e ganhe mais XP hoje.</p>
+    <div class="modal-stats">
+      <div class="modal-stat"><div class="v" id="wStreak">0</div><div class="l">Ofensiva</div></div>
+      <div class="modal-stat"><div class="v" id="wXp">0</div><div class="l">XP total</div></div>
+      <div class="modal-stat"><div class="v" id="wHearts">5</div><div class="l">Corações</div></div>
+    </div>
+    <button class="btn btn-green btn-block" onclick="fecharWelcome()">Continuar</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   BANCO DE CONTEÚDO — 12 UCs OFICIAIS DO CURSO DE RH
+   Cada UC tem várias lições, cada lição tem 5 perguntas.
+   ============================================================ */
+
+const UNITS = [
+  /* ============ UC1 ============ */
+  {
+    id: 'uc1', name: 'UC1 · Recrutar e selecionar pessoas', icon: '🔍', color: 'purple',
+    lessons: [
+      { id: 'uc1a', title: 'Fontes de Recrutamento', icon: '📢',
+        theory: {
+          title: 'Interno x Externo — quando usar cada um',
+          text: 'Recrutamento interno motiva e é mais barato; externo traz sangue novo. A escolha depende do cargo e da cultura.',
+          list: [
+            'Recrutamento interno: motiva, retém, mais rápido',
+            'Recrutamento externo: traz novas ideias e experiências',
+            'Misto: anuncia interno e externo ao mesmo tempo',
+            'Canais externos: LinkedIn, portais, indicação, feiras',
+            'Indicação costuma ter maior taxa de retenção'
+          ],
+          exemplo: 'Vaga de liderança recém-criada: recrutamento misto costuma dar o melhor resultado.'
+        },
+        questions: [
+          { q: 'Vantagem do recrutamento interno:', opts: ['Motiva e retém colaboradores', 'Traz novas ideias', 'É mais lento', 'Custa mais caro'], correct: 0, explain: 'Interno motiva, aproveita quem já conhece a cultura e reduz tempo de integração.' },
+          { q: 'Canal com maior taxa de retenção:', opts: ['Indicação', 'Jornal', 'Rádio', 'Panfleto'], correct: 0, explain: 'Indicação tende a gerar contratações mais alinhadas e duradouras.' },
+          { q: 'Recrutamento misto é:', opts: ['Anunciar interna e externamente ao mesmo tempo', 'Só interno', 'Só externo', 'Contratar sem processo'], correct: 0, explain: 'Misto amplia a concorrência e mantém o colaborador interno participando.' },
+          { q: 'Recrutamento externo traz:', opts: ['Novas ideias e experiências', 'Só custo', 'Só lentidão', 'Nada de novo'], correct: 0, explain: 'Externo renova o quadro e traz repertório de fora.' },
+          { q: 'Quando o interno costuma ser melhor?', opts: ['Para cargos que exigem conhecer a cultura', 'Sempre', 'Nunca', 'Só para diretoria'], correct: 0, explain: 'Cargos que dependem de cultura e relacionamento se beneficiam do interno.' }
+        ]
+      },
+      { id: 'uc1b', title: 'Triagem Curricular', icon: '📄',
+        theory: {
+          title: 'Triagem com critério, sem viés',
+          text: 'Triagem é comparar com critérios, não julgar. Scorecard e palavras-chave ajudam a padronizar.',
+          list: [
+            'Requisitos eliminatórios primeiro',
+            'Scorecard com pesos por critério',
+            'Palavras-chave para filtrar volume',
+            'Evite dados que geram viés (foto, idade, estado civil)',
+            'Registre motivo de cada reprovação'
+          ],
+          exemplo: 'Currículo bonito sem requisitos eliminatórios não avança. Critério antes de impressão.'
+        },
+        questions: [
+          { q: 'Primeiro filtro da triagem deve ser:', opts: ['Requisitos eliminatórios', 'Aparência do currículo', 'Nome da faculdade', 'Foto'], correct: 0, explain: 'Sem os eliminatórios, o candidato não avança.' },
+          { q: 'Scorecard de triagem serve para:', opts: ['Padronizar a comparação', 'Decorar o RH', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Padroniza e reduz viés entre candidatos.' },
+          { q: 'Dados que geram viés no currículo:', opts: ['Foto, idade, estado civil', 'Experiência', 'Formação', 'Cursos'], correct: 0, explain: 'Devem ser evitados na triagem para focar em competência.' },
+          { q: 'Por que registrar motivo de reprovação?', opts: ['Para dar feedback e evitar questionamento', 'Burocracia', 'Para arquivar', 'Para estatística'], correct: 0, explain: 'Embasa o feedback e protege a empresa.' },
+          { q: 'Palavras-chave na triagem servem para:', opts: ['Filtrar volume grande', 'Escolher por simpatia', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Ajuda a reduzir volume sem perder o critério.' }
+        ]
+      },
+      { id: 'uc1c', title: 'Entrevista por Competências', icon: '🎤',
+        theory: {
+          title: 'Método STAR na prática',
+          text: 'Perguntas hipotéticas geram respostas ensaiadas. STAR busca evidências reais do passado.',
+          list: [
+            'S = Situação (contexto)',
+            'T = Tarefa (responsabilidade)',
+            'A = Ação (o que o candidato fez)',
+            'R = Resultado (o que mudou)',
+            'Anote evidências objetivas, não impressões'
+          ],
+          exemplo: 'Em vez de "o que você faria se...", pergunte "conte uma vez em que você...".'
+        },
+        questions: [
+          { q: 'O que significa STAR?', opts: ['Situação, Tarefa, Ação, Resultado', 'Simpatia, Talento, Atitude, Respeito', 'Sistema, Tarefa, Avaliação, Retorno', 'Só Talentos Aplicados em Resultados'], correct: 0, explain: 'STAR é o método comportamental baseado em evidências passadas.' },
+          { q: 'Pergunta hipotética é ruim porque:', opts: ['Gera respostas ensaiadas', 'É ilegal', 'Demora muito', 'Confunde o candidato'], correct: 0, explain: 'Perguntas hipotéticas produzem respostas prontas.' },
+          { q: 'O que anotar na entrevista?', opts: ['Evidências objetivas', 'Impressões pessoais', 'Aparência', 'Sotaque'], correct: 0, explain: 'Evidências reduzem viés e embasam a decisão.' },
+          { q: 'Entrevista estruturada significa:', opts: ['Mesmas perguntas para todos', 'Conversa livre', 'Só testes', 'Dinâmica'], correct: 0, explain: 'Mesmas perguntas garantem comparação justa.' },
+          { q: 'Pergunta sobre gravidez:', opts: ['É proibida e gera processo', 'É obrigatória', 'É recomendada', 'É neutra'], correct: 0, explain: 'Discriminação — proibida em qualquer entrevista.' }
+        ]
+      },
+      { id: 'uc1d', title: 'Técnicas de Seleção', icon: '🧪',
+        theory: {
+          title: 'Além da entrevista: testes e dinâmicas',
+          text: 'Testes técnicos e dinâmicas completam a entrevista. Escolha a técnica conforme a competência a avaliar.',
+          list: [
+            'Teste técnico: mede conhecimento específico',
+            'Dinâmica de grupo: avalia interação e liderança',
+            'Role play: simula situação real do cargo',
+            'Teste psicológico: só com psicólogo habilitado',
+            'Case: avalia raciocínio e estrutura de solução'
+          ],
+          exemplo: 'Para vaga de liderança, role play revela mais que uma entrevista tradicional.'
+        },
+        questions: [
+          { q: 'Teste psicológico só pode ser aplicado por:', opts: ['Psicólogo habilitado', 'RH geral', 'Gestor', 'Diretor'], correct: 0, explain: 'Testes psicológicos são privativos de psicólogo com CRP ativo.' },
+          { q: 'Dinâmica de grupo avalia:', opts: ['Interação, liderança e comunicação', 'Só conhecimento', 'Só aparência', 'Só currículo'], correct: 0, explain: 'Comportamento em grupo revela soft skills.' },
+          { q: 'Role play serve para:', opts: ['Simular situação real do cargo', 'Avaliar só conhecimento', 'Substituir entrevista', 'Demitir'], correct: 0, explain: 'Simulação mostra como o candidato agiria na prática.' },
+          { q: 'Case de seleção avalia:', opts: ['Raciocínio e estrutura de solução', 'Aparência', 'Sotaque', 'Idade'], correct: 0, explain: 'Cases medem como o candidato pensa e estrutura soluções.' },
+          { q: 'Escolher a técnica depende de:', opts: ['Competência a avaliar', 'Preço', 'Tempo', 'Cargo'], correct: 0, explain: 'Cada competência pede uma técnica diferente.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC2 ============ */
+  {
+    id: 'uc2', name: 'UC2 · Organizar projetos da área de RH', icon: '📊', color: 'blue',
+    lessons: [
+      { id: 'uc2a', title: 'Ciclo de Vida de Projetos', icon: '🔄',
+        theory: {
+          title: 'Do diagnóstico à entrega',
+          text: 'Todo projeto de RH nasce de uma necessidade e passa por fases claras: diagnóstico, planejamento, execução e avaliação.',
+          list: [
+            'Diagnóstico: entender o problema real',
+            'Planejamento: escopo, prazo, recursos',
+            'Execução: cronograma e responsáveis',
+            'Monitoramento: indicadores e ajustes',
+            'Encerramento: avaliação e lições aprendidas'
+          ],
+          exemplo: 'Projeto de redução de turnover começa com diagnóstico de causas, não com a ação pronta.'
+        },
+        questions: [
+          { q: 'Primeira fase de um projeto de RH:', opts: ['Diagnóstico', 'Execução', 'Encerramento', 'Compra'], correct: 0, explain: 'Sem diagnóstico, o projeto ataca sintoma e não causa.' },
+          { q: 'Escopo do projeto define:', opts: ['O que está dentro e fora', 'Só prazo', 'Só custo', 'Só equipe'], correct: 0, explain: 'Escopo delimita entregas e evita mudanças descontroladas.' },
+          { q: 'Monitoramento serve para:', opts: ['Ajustar rumo conforme indicadores', 'Burocracia', 'Demitir', 'Encerrar'], correct: 0, explain: 'Sem monitoramento, o projeto segue errado até o fim.' },
+          { q: 'Encerramento do projeto deve incluir:', opts: ['Avaliação e lições aprendidas', 'Só comemoração', 'Só relatório', 'Nada'], correct: 0, explain: 'Lições aprendidas melhoram projetos futuros.' },
+          { q: 'Projeto sem diagnóstico tende a:', opts: ['Atacar sintoma e não causa', 'Dar certo sempre', 'Ser mais barato', 'Ser mais rápido'], correct: 0, explain: 'Sem causa raiz, o problema volta.' }
+        ]
+      },
+      { id: 'uc2b', title: 'Stakeholders e Comunicação', icon: '🗣️',
+        theory: {
+          title: 'Quem precisa saber o quê',
+          text: 'Projeto de RH toca muita gente. Mapear stakeholders e comunicar bem evita resistência.',
+          list: [
+            'Mapear stakeholders: poder x interesse',
+            'Definir plano de comunicação',
+            'Envolver liderança desde o início',
+            'Ouvir áreas impactadas',
+            'Comunicar resultados periodicamente'
+          ],
+          exemplo: 'Projeto de avaliação de desempenho sem envolver gestores nasce boicotado.'
+        },
+        questions: [
+          { q: 'Matriz de stakeholders considera:', opts: ['Poder e interesse', 'Só poder', 'Só interesse', 'Só cargo'], correct: 0, explain: 'Poder x interesse orienta a estratégia de comunicação.' },
+          { q: 'Envolver liderança desde o início serve para:', opts: ['Reduzir resistência', 'Aumentar custo', 'Atrasar', 'Burocratizar'], correct: 0, explain: 'Liderança engajada puxa o projeto para frente.' },
+          { q: 'Plano de comunicação define:', opts: ['Quem recebe o quê, quando e como', 'Só e-mail', 'Só reunião', 'Só relatório'], correct: 0, explain: 'Clareza evita ruído e retrabalho.' },
+          { q: 'Ouvir áreas impactadas serve para:', opts: ['Ajustar o projeto à realidade', 'Burocracia', 'Atrasar', 'Demitir'], correct: 0, explain: 'Quem vive o processo ajuda a desenhar solução viável.' },
+          { q: 'Comunicar resultados periodicamente:', opts: ['Mantém engajamento e transparência', 'É desperdício', 'Atrasa', 'Não serve'], correct: 0, explain: 'Transparência sustenta apoio ao longo do projeto.' }
+        ]
+      },
+      { id: 'uc2c', title: 'Cronograma e Recursos', icon: '📅',
+        theory: {
+          title: 'Cronograma viável e recursos realistas',
+          text: 'Projeto sem cronograma e orçamento definidos atrasa e estoura. Planeje com folga e responsáveis claros.',
+          list: [
+            'Dividir em entregas menores',
+            'Definir responsável por entrega',
+            'Estimar prazos com folga',
+            'Orçamento: pessoas, ferramentas, treinamento',
+            'Revisar cronograma conforme execução'
+          ],
+          exemplo: 'Projeto em 3 fases curtas é mais fácil de monitorar que um cronograma gigante.'
+        },
+        questions: [
+          { q: 'Cronograma com entregas menores serve para:', opts: ['Facilitar monitoramento', 'Atrasar', 'Encarecer', 'Burocratizar'], correct: 0, explain: 'Entregas curtas mostram progresso e reduzem risco.' },
+          { q: 'Orçamento do projeto deve incluir:', opts: ['Pessoas, ferramentas e treinamento', 'Só pessoal', 'Só ferramenta', 'Nada'], correct: 0, explain: 'Custo total inclui pessoas, ferramentas e capacitação.' },
+          { q: 'Responsável por entrega deve ser:', opts: ['Definido e único', 'Ninguém', 'Toda a equipe', 'Só o RH'], correct: 0, explain: 'Entrega sem dono tende a atrasar.' },
+          { q: 'Prazos com folga servem para:', opts: ['Absorver imprevistos', 'Atrasar sempre', 'Encarecer', 'Burocratizar'], correct: 0, explain: 'Folga evita estourar cronograma por imprevisto.' },
+          { q: 'Revisar cronograma na execução é:', opts: ['Boa prática', 'Erro', 'Desnecessário', 'Proibido'], correct: 0, explain: 'Projeto é vivo. Revisar mantém o rumo.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC3 ============ */
+  {
+    id: 'uc3', name: 'UC3 · Integração e engajamento', icon: '🚀', color: 'green',
+    lessons: [
+      { id: 'uc3a', title: 'Onboarding Estruturado', icon: '🎯',
+        theory: {
+          title: 'Primeiros 90 dias definem a retenção',
+          text: 'Onboarding não é só apresentar a empresa. É preparar o caminho para produzir e se sentir parte.',
+          list: [
+            'Checklist do primeiro dia',
+            'Kit de boas-vindas e crachá',
+            'Padrinho/mentor designado',
+            'Treinamentos obrigatórios agendados',
+            'Acompanhamento semanal nos primeiros 30 dias'
+          ],
+          exemplo: 'Colaborador que não sabe a quem pedir ajuda no primeiro dia demora meses para produzir.'
+        },
+        questions: [
+          { q: 'Padrinho de onboarding é:', opts: ['Colega que acompanha o novo', 'Gestor direto', 'RH', 'Diretor'], correct: 0, explain: 'Padrinho é apoio no dia a dia, fora da hierarquia.' },
+          { q: 'Acompanhamento semanal serve para:', opts: ['Detectar dificuldades cedo', 'Burocracia', 'Aumentar salário', 'Demitir'], correct: 0, explain: 'Feedback frequente reduz desligamento precoce.' },
+          { q: 'Kit de boas-vindas serve para:', opts: ['Acolher e engajar', 'Presentear', 'Cumprir lei', 'Reduzir custo'], correct: 0, explain: 'Acolhimento no primeiro dia impacta a cultura percebida.' },
+          { q: 'Treinamentos obrigatórios devem ser:', opts: ['Antes do início das atividades', 'Depois de 6 meses', 'Quando der', 'Nunca'], correct: 0, explain: 'Segurança e compliance antes do início.' },
+          { q: 'Onboarding eficaz reduz:', opts: ['Turnover precoce', 'Salário', 'Benefícios', 'Férias'], correct: 0, explain: 'Primeiros 90 dias são críticos.' }
+        ]
+      },
+      { id: 'uc3b', title: 'Engajamento e Motivação', icon: '🔥',
+        theory: {
+          title: 'O que move o colaborador',
+          text: 'Engajamento vai além de salário. Reconhecimento, propósito, autonomia e desenvolvimento sustentam a motivação.',
+          list: [
+            'Reconhecimento específico e frequente',
+            'Propósito claro e comunicação transparente',
+            'Autonomia com responsabilidade',
+            'Oportunidades de desenvolvimento',
+            'Pesquisa de engajamento regular'
+          ],
+          exemplo: 'Reconhecimento genérico ("bom trabalho") vale menos que específico ("sua análise salvou o cliente X").'
+        },
+        questions: [
+          { q: 'Engajamento depende só de salário?', opts: ['Não, envolve propósito, reconhecimento e desenvolvimento', 'Sim, só salário', 'Só benefícios', 'Só chefia'], correct: 0, explain: 'Salário é higiênico. Engajamento envolve mais fatores.' },
+          { q: 'Reconhecimento eficaz é:', opts: ['Específico e frequente', 'Genérico', 'Anual', 'Público sempre'], correct: 0, explain: 'Reconhecimento específico reforça comportamentos desejados.' },
+          { q: 'Autonomia no trabalho significa:', opts: ['Liberdade com responsabilidade', 'Fazer o que quiser', 'Sem metas', 'Sem chefe'], correct: 0, explain: 'Autonomia anda junto com clareza de metas e responsabilidade.' },
+          { q: 'Pesquisa de engajamento serve para:', opts: ['Medir e agir sobre causas', 'Burocracia', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Sem ação, a pesquisa perde credibilidade.' },
+          { q: 'Comunicação transparente gera:', opts: ['Confiança', 'Ruído', 'Medo', 'Burocracia'], correct: 0, explain: 'Transparência sustenta confiança e engajamento.' }
+        ]
+      },
+      { id: 'uc3c', title: 'Ações de Integração', icon: '🤝',
+        theory: {
+          title: 'Integração que gera pertencimento',
+          text: 'Integrar é criar vínculo. Ações simples e contínuas valem mais que evento anual isolado.',
+          list: [
+            'Café com o time na primeira semana',
+            'Apresentação da cultura e valores',
+            'Tour pelas áreas e apresentação dos colegas',
+            'Mentoria nos primeiros 90 dias',
+            'Feedback estruturado aos 30, 60 e 90 dias'
+          ],
+          exemplo: 'Ação de integração anual não substitui acolhimento no primeiro dia.'
+        },
+        questions: [
+          { q: 'Feedback estruturado nos primeiros 90 dias é:', opts: ['Aos 30, 60 e 90 dias', 'Só no fim do ano', 'Nunca', 'Só se o colaborador pedir'], correct: 0, explain: 'Ciclos curtos detectam e corrigem cedo.' },
+          { q: 'Mentoria nos primeiros 90 dias serve para:', opts: ['Acelerar adaptação', 'Burocracia', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Mentor ajuda na curva de aprendizado.' },
+          { q: 'Apresentação da cultura e valores:', opts: ['Sustenta pertencimento', 'É opcional', 'É proibida', 'Não serve'], correct: 0, explain: 'Clareza cultural reduz choque de expectativas.' },
+          { q: 'Ação de integração anual isolada:', opts: ['Não substitui acolhimento no dia a dia', 'Basta', 'É melhor', 'É suficiente'], correct: 0, explain: 'Integração é processo, não evento pontual.' },
+          { q: 'Café com o time na primeira semana:', opts: ['Ajuda a criar vínculo', 'Atrasa', 'Burocratiza', 'Encarece'], correct: 0, explain: 'Ação simples e contínua fortalece relações.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC4 ============ */
+  {
+    id: 'uc4', name: 'UC4 · Desenhar cargos e avaliar desempenho', icon: '📊', color: 'pink',
+    lessons: [
+      { id: 'uc4a', title: 'Descrição de Cargos', icon: '📋',
+        theory: {
+          title: 'O que uma descrição de cargo precisa ter',
+          text: 'Descrição clara orienta seleção, avaliação e remuneração. Vaga genérica gera contratação errada.',
+          list: [
+            'Título do cargo',
+            'Missão/sumário da posição',
+            'Responsabilidades principais',
+            'Requisitos (formação, experiência, competências)',
+            'Indicadores de desempenho esperados'
+          ],
+          exemplo: 'Cargo sem indicadores dificulta avaliar se está sendo bem executado.'
+        },
+        questions: [
+          { q: 'Descrição de cargo deve conter:', opts: ['Missão, responsabilidades, requisitos e indicadores', 'Só título', 'Só salário', 'Só formação'], correct: 0, explain: 'Descrição completa orienta seleção, avaliação e remuneração.' },
+          { q: 'Indicadores de desempenho servem para:', opts: ['Avaliar execução do cargo', 'Só enfeitar', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Sem indicador, não há como avaliar bem o cargo.' },
+          { q: 'Vaga genérica gera:', opts: ['Contratação errada', 'Contratação perfeita', 'Nada', 'Economia'], correct: 0, explain: 'Sem clareza, o perfil contratado não adere.' },
+          { q: 'Missão do cargo define:', opts: ['Para que a posição existe', 'Só salário', 'Só formação', 'Só chefia'], correct: 0, explain: 'Missão orienta o propósito da posição.' },
+          { q: 'Requisitos devem ser:', opts: ['Realistas e alinhados ao cargo', 'Exagerados', 'Vagos', 'Mínimos'], correct: 0, explain: 'Requisito exagerado filtra bons candidatos.' }
+        ]
+      },
+      { id: 'uc4b', title: 'Métodos de Avaliação', icon: '🧪',
+        theory: {
+          title: 'Escolhendo o método certo',
+          text: 'Cada método tem forças e limitações. Combinar métodos reduz viés.',
+          list: [
+            'Escalas gráficas: simples e rápidas',
+            'Incidentes críticos: focam em comportamentos',
+            '360 graus: múltiplas perspectivas',
+            'Por objetivos (MBO): foca em resultados',
+            'Autoavaliação: complementa as demais'
+          ],
+          exemplo: 'Avaliação só por escala gráfica tende a ser subjetiva. Combine com objetivos.'
+        },
+        questions: [
+          { q: 'Avaliação 360 graus coleta:', opts: ['Múltiplas perspectivas', 'Só chefe', 'Só autoavaliação', 'Só pares'], correct: 0, explain: 'Chefe, pares, subordinados e autoavaliação.' },
+          { q: 'Incidentes críticos focam em:', opts: ['Comportamentos observáveis', 'Aparência', 'Salário', 'Idade'], correct: 0, explain: 'Registra comportamentos positivos e negativos.' },
+          { q: 'MBO significa:', opts: ['Avaliação por objetivos', 'Método básico', 'Manual', 'Meta'], correct: 0, explain: 'Management by Objectives: foco em resultado.' },
+          { q: 'Combinar métodos serve para:', opts: ['Reduzir viés', 'Aumentar custo', 'Atrasar', 'Burocratizar'], correct: 0, explain: 'Métodos complementares cobrem pontos cegos.' },
+          { q: 'Autoavaliação é:', opts: ['Complemento, não substituta', 'Suficiente', 'Proibida', 'Nunca usada'], correct: 0, explain: 'Complementa outras visões.' }
+        ]
+      },
+      { id: 'uc4c', title: 'Feedback e PDI', icon: '💬',
+        theory: {
+          title: 'Feedback que gera desenvolvimento',
+          text: 'Feedback sem dado vira opinião. Modelo SBI separa fato de julgamento. PDI transforma feedback em ação.',
+          list: [
+            'SBI: Situação, Comportamento, Impacto',
+            'Foco em comportamento, não na pessoa',
+            'Ouvir antes de concluir',
+            'PDI com metas SMART',
+            'Acompanhamento com checkpoints'
+          ],
+          exemplo: '"Você é desorganizado" é julgamento. "O relatório chegou sem dados, o que atrasou a decisão" é SBI.'
+        },
+        questions: [
+          { q: 'SBI significa:', opts: ['Situação, Comportamento, Impacto', 'Simpatia, Bom humor, Interesse', 'Sistema, Base, Informação', 'Só Bons Insights'], correct: 0, explain: 'Separa fato (situação e comportamento) de impacto.' },
+          { q: 'Feedback deve focar em:', opts: ['Comportamento', 'Personalidade', 'Aparência', 'Histórico'], correct: 0, explain: 'Comportamento é observável e pode ser mudado.' },
+          { q: 'PDI usa metas:', opts: ['SMART', 'Vagas', 'Genéricas', 'Aleatórias'], correct: 0, explain: 'SMART garante clareza e mensuração.' },
+          { q: 'Checkpoints no PDI servem para:', opts: ['Acompanhar e ajustar', 'Burocracia', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Sem acompanhamento, PDI vira documento esquecido.' },
+          { q: 'Ouvir antes de concluir:', opts: ['Evita feedback injusto', 'Atrasa', 'Burocratiza', 'Não serve'], correct: 0, explain: 'Ouvir melhora a relação e a precisão do feedback.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC5 ============ */
+  {
+    id: 'uc5', name: 'UC5 · Remuneração, benefícios e incentivos', icon: '💰', color: 'gold',
+    lessons: [
+      { id: 'uc5a', title: 'Pesquisa Salarial', icon: '📈',
+        theory: {
+          title: 'Como comparar com o mercado',
+          text: 'Pesquisa salarial orienta faixas e evita pagar muito acima ou abaixo do mercado.',
+          list: [
+            'Fontes: pesquisas setoriais, sindicatos, portais',
+            'Comparar cargo, região, porte e setor',
+            'Definir percentil de referência (P50, P75)',
+            'Atualizar anualmente',
+            'Cruzar com equidade interna'
+          ],
+          exemplo: 'Salário P90 atrai talento, mas desequilibra a folha e gera insatisfação interna.'
+        },
+        questions: [
+          { q: 'Pesquisa salarial serve para:', opts: ['Alinhar faixas ao mercado', 'Demitir', 'Aumentar todos', 'Ignorar'], correct: 0, explain: 'Referência de mercado garante competitividade.' },
+          { q: 'Percentil P50 significa:', opts: ['Mediana do mercado', 'Topo', 'Base', 'Média simples'], correct: 0, explain: 'P50 é o valor mediano praticado no mercado.' },
+          { q: 'Cruzar com equidade interna serve para:', opts: ['Evitar distorções entre colegas', 'Aumentar custo', 'Burocratizar', 'Nada'], correct: 0, explain: 'Sem equidade interna, gera insatisfação e passivo.' },
+          { q: 'Pesquisa deve ser atualizada:', opts: ['Anualmente', 'A cada 5 anos', 'Nunca', 'Quando der'], correct: 0, explain: 'Mercado muda. Atualize pelo menos uma vez por ano.' },
+          { q: 'P90 é:', opts: ['Valor alto praticado por poucas empresas', 'Mediana', 'Base', 'Mínimo legal'], correct: 0, explain: 'P90 significa que 90% do mercado paga abaixo desse valor.' }
+        ]
+      },
+      { id: 'uc5b', title: 'Remuneração Variável', icon: '🎯',
+        theory: {
+          title: 'Bônus, comissão e PLR',
+          text: 'Remuneração variável alinha esforço a resultado. Precisa de metas claras e regras transparentes.',
+          list: [
+            'Comissão: percentual sobre venda/serviço',
+            'Bônus: valor por meta atingida',
+            'PLR: participação nos lucros e resultados',
+            'Metas devem ser SMART',
+            'Regras claras e comunicadas'
+          ],
+          exemplo: 'PLR sem metas claras vira 14º salário disfarçado.'
+        },
+        questions: [
+          { q: 'PLR significa:', opts: ['Participação nos Lucros e Resultados', 'Plano de Longo Prazo', 'Prêmio Livre', 'Pagamento Linear'], correct: 0, explain: 'PLR é regulada por lei específica.' },
+          { q: 'Metas de variável devem ser:', opts: ['SMART', 'Vagas', 'Genéricas', 'Secretas'], correct: 0, explain: 'SMART garante clareza e mensuração.' },
+          { q: 'Comissão é:', opts: ['Percentual sobre venda/serviço', 'Salário fixo', 'Benefício', 'Adicional'], correct: 0, explain: 'Comissão é paga conforme resultado.' },
+          { q: 'PLR sem meta clara:', opts: ['Vira 14º disfarçado', 'Motiva mais', 'Reduz custo', 'É ideal'], correct: 0, explain: 'Sem regra clara, perde o efeito motivador.' },
+          { q: 'Remuneração variável alinha:', opts: ['Esforço a resultado', 'Salário fixo', 'Só custo', 'Só meta'], correct: 0, explain: 'Variável conecta desempenho e recompensa.' }
+        ]
+      },
+      { id: 'uc5c', title: 'Benefícios e Incentivos', icon: '🎁',
+        theory: {
+          title: 'Benefícios que retêm',
+          text: 'Benefício é parte do pacote total. Bem escolhido, aumenta percepção de valor e reduz turnover.',
+          list: [
+            'Benefícios legais: VT, VR, VA, plano de saúde (convenção)',
+            'Benefícios espontâneos: academia, cursos, day off',
+            'Benefícios flexíveis: verba para escolher',
+            'Comunicar valor total do pacote',
+            'Revisar anualmente'
+          ],
+          exemplo: 'Colaborador que não sabe o valor dos benefícios percebe menos o pacote.'
+        },
+        questions: [
+          { q: 'Benefícios legais incluem:', opts: ['VT, VR, VA e plano (conforme convenção)', 'Só academia', 'Só day off', 'Só cursos'], correct: 0, explain: 'Alguns são legais, outros vêm de convenção coletiva.' },
+          { q: 'Benefício flexível:', opts: ['Verba para o colaborador escolher', 'Salário extra', 'Férias', 'Adiantamento'], correct: 0, explain: 'Verba definida pela empresa com regras claras.' },
+          { q: 'Comunicar valor total do pacote:', opts: ['Aumenta percepção de valor', 'É desnecessário', 'Atrasa', 'Custa caro'], correct: 0, explain: 'Transparência ajuda o colaborador a valorizar o pacote.' },
+          { q: 'Revisar benefícios anualmente serve para:', opts: ['Manter competitividade', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Mercado e custos mudam. Revise periodicamente.' },
+          { q: 'Benefício espontâneo é:', opts: ['Aquele que a empresa dá por opção', 'Obrigatório por lei', 'Só se sindicato exigir', 'Nunca usado'], correct: 0, explain: 'Não é exigido por lei, mas agrega valor.' },
+          { q: 'Benefício bem escolhido:', opts: ['Reduz turnover e aumenta percepção de valor', 'Aumenta custo', 'Não serve', 'É indiferente'], correct: 0, explain: 'Bem desenhado, o benefício retém e engaja.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC6 ============ */
+  {
+    id: 'uc6', name: 'UC6 · Admissão, benefícios e demissão', icon: '📝', color: 'blue',
+    lessons: [
+      { id: 'uc6a', title: 'Rotinas de Admissão', icon: '📁',
+        theory: {
+          title: 'Documentação e registro sem erro',
+          text: 'Admissão mal feita gera passivo. Documentação, exame e registro no prazo são obrigatórios.',
+          list: [
+            'RG, CPF, comprovante de residência, CTPS digital',
+            'Exame admissional (ASO) antes do início',
+            'Registro em CTPS até o 1º dia',
+            'Evento S-2200 no eSocial antes do início',
+            'Entrega de crachá, uniforme e acessos'
+          ],
+          exemplo: 'Registrar após o início das atividades gera multa e passivo.'
+        },
+        questions: [
+          { q: 'Registro em CTPS deve ocorrer:', opts: ['Até o primeiro dia de trabalho', 'Em 30 dias', 'Em 90 dias', 'Quando der'], correct: 0, explain: 'Registro antes do início das atividades.' },
+          { q: 'ASO admissional é:', opts: ['Obrigatório antes do início', 'Opcional', 'Só para insalubridade', 'Só para menor'], correct: 0, explain: 'Exame admissional é obrigatório.' },
+          { q: 'Evento do eSocial de admissão:', opts: ['S-2200', 'S-1200', 'S-2299', 'S-2210'], correct: 0, explain: 'S-2200 deve ser enviado antes do início.' },
+          { q: 'Documentação incompleta causa:', opts: ['Atraso no registro e passivo', 'Nada', 'Elogio', 'Economia'], correct: 0, explain: 'Falta de documento atrasa registro e gera passivo.' },
+          { q: 'Entrega de crachá e acessos faz parte de:', opts: ['Rotina de admissão', 'Rescisão', 'Férias', 'Folha'], correct: 0, explain: 'Faz parte do processo de integração/admissão.' }
+        ]
+      },
+      { id: 'uc6b', title: 'Gestão de Benefícios', icon: '🎁',
+        theory: {
+          title: 'Admissão e manutenção de benefícios',
+          text: 'Benefício mal gerido vira custo invisível. Controle de adesões, carências e descontos é essencial.',
+          list: [
+            'Formulário de adesão e documentação de dependentes',
+            'Conferir carências do plano',
+            'Registrar desconto em folha',
+            'Atualizar em caso de mudança',
+            'Excluir no desligamento'
+          ],
+          exemplo: 'Dependente que continua no plano após desligamento gera custo indevido.'
+        },
+        questions: [
+          { q: 'Formulário de adesão serve para:', opts: ['Registrar escolha do colaborador', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Documenta a adesão e serve de comprovação.' },
+          { q: 'Carência do plano é definida por:', opts: ['Contrato com a operadora', 'RH', 'Colaborador', 'Diretor'], correct: 0, explain: 'Cada contrato tem carências próprias.' },
+          { q: 'Após desligamento, dependente deve ser:', opts: ['Excluído imediatamente', 'Mantido 90 dias', 'Mantido 6 meses', 'Mantido sempre'], correct: 0, explain: 'Exclusão imediata. Portabilidade é direito do ex-colaborador.' },
+          { q: 'Registrar desconto em folha é:', opts: ['Obrigatório quando há coparticipação', 'Opcional', 'Proibido', 'Desnecessário'], correct: 0, explain: 'Desconto precisa estar registrado em folha.' },
+          { q: 'Mudança de dados do colaborador exige:', opts: ['Atualização dos benefícios', 'Nada', 'Novo contrato', 'Novo ASO'], correct: 0, explain: 'Mudança de endereço, por exemplo, afeta VT e plano.' }
+        ]
+      },
+      { id: 'uc6c', title: 'Rotinas de Demissão', icon: '📤',
+        theory: {
+          title: 'Desligamento sem passivo',
+          text: 'Cada tipo de desligamento tem verbas e prazos próprios. Documentar e pagar no prazo evita passivo.',
+          list: [
+            'Sem justa causa: saldo, aviso, férias+1/3, 13º, FGTS+40%',
+            'Com justa causa: saldo e férias vencidas+1/3',
+            'Pedido de demissão: saldo, férias+1/3, 13º',
+            'Acordo (art. 484-A): metade do aviso e 20% do FGTS',
+            'Prazo de pagamento: 10 dias'
+          ],
+          exemplo: 'Acordo: aviso indenizado pela metade e multa de 20% do FGTS.'
+        },
+        questions: [
+          { q: 'Prazo para pagamento da rescisão:', opts: ['10 dias corridos', '30 dias', '15 dias', '5 dias'], correct: 0, explain: 'Art. 477 CLT: 10 dias corridos.' },
+          { q: 'Multa do FGTS sem justa causa:', opts: ['40%', '20%', '10%', '50%'], correct: 0, explain: '40% sobre o total depositado. Acordo é 20%.' },
+          { q: 'Pedido de demissão tem multa de FGTS?', opts: ['Não', 'Sim, 40%', 'Sim, 20%', 'Só se acordo'], correct: 0, explain: 'Pedido de demissão não gera multa.' },
+          { q: 'Acordo art. 484-A prevê:', opts: ['Metade do aviso e 20% do FGTS', 'Aviso integral e 40%', 'Sem aviso', 'Sem multa'], correct: 0, explain: 'Acordo: aviso indenizado pela metade e multa de 20%.' },
+          { q: 'Justa causa paga férias vencidas?', opts: ['Sim, com 1/3', 'Não', 'Só metade', 'Só 13º'], correct: 0, explain: 'Justa causa paga saldo e férias vencidas + 1/3.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC7 ============ */
+  {
+    id: 'uc7', name: 'UC7 · Rotinas de folha de pagamento', icon: '📊', color: 'gold',
+    lessons: [
+      { id: 'uc7a', title: 'Estrutura da Folha', icon: '🧾',
+        theory: {
+          title: 'O que compõe a folha',
+          text: 'Folha é o retrato mensal da remuneração. Cada verba tem incidência própria de INSS, FGTS e IRRF.',
+          list: [
+            'Proventos: salário, horas extras, adicionais, comissões',
+            'Descontos: INSS, IRRF, faltas, VT, coparticipação',
+            'Base de cálculo muda por verba',
+            'FGTS é depositado, não descontado',
+            'Conferir holerite antes de enviar'
+          ],
+          exemplo: 'Adicional noturno incide em INSS, FGTS, IRRF e férias. Vale-transporte, não.'
+        },
+        questions: [
+          { q: 'FGTS é:', opts: ['Depositado pela empresa, não descontado', 'Descontado do salário', 'Isento', 'Só para PJ'], correct: 0, explain: 'FGTS é obrigação da empresa, depositada em conta vinculada.' },
+          { q: 'Adicional noturno incide em:', opts: ['INSS, FGTS, IRRF e férias', 'Só INSS', 'Só IRRF', 'Nada'], correct: 0, explain: 'É verba salarial. Incide em todos os encargos.' },
+          { q: 'Vale-transporte incide em INSS?', opts: ['Não', 'Sim', 'Só FGTS', 'Só IRRF'], correct: 0, explain: 'VT é indenizatório, não incide em INSS nem FGTS.' },
+          { q: 'Conferir holerite antes de enviar é:', opts: ['Boa prática', 'Burocracia', 'Desnecessário', 'Proibido'], correct: 0, explain: 'Erro em holerite gera reclamação e passivo.' },
+          { q: 'Base de cálculo muda por:', opts: ['Tipo de verba', 'Cor do crachá', 'Setor', 'Cargo'], correct: 0, explain: 'Cada verba tem incidência própria.' }
+        ]
+      },
+      { id: 'uc7b', title: 'INSS, IRRF e FGTS', icon: '💼',
+        theory: {
+          title: 'Encargos sobre a folha',
+          text: 'Cada encargo tem base, alíquota e prazo próprios. Tabelas mudam anualmente.',
+          list: [
+            'INSS: alíquotas progressivas (7,5% a 14%) com teto',
+            'FGTS: 8% sobre a remuneração, depósito até dia 7',
+            'IRRF: tabela progressiva com deduções legais',
+            'Dependentes: dedução fixa',
+            'eSocial: S-1200 e S-1210'
+          ],
+          exemplo: 'INSS é progressivo por faixa, não alíquota única sobre o total.'
+        },
+        questions: [
+          { q: 'Alíquota do FGTS:', opts: ['8%', '11%', '20%', '5%'], correct: 0, explain: 'FGTS é 8% da remuneração, depositado até dia 7.' },
+          { q: 'INSS é calculado como:', opts: ['Progressivo por faixa', 'Alíquota única', 'Valor fixo', 'Zero'], correct: 0, explain: 'Cada faixa tem alíquota própria até o teto.' },
+          { q: 'Prazo do FGTS:', opts: ['Até dia 7', 'Dia 15', 'Dia 20', 'Dia 30'], correct: 0, explain: 'FGTS até dia 7 do mês seguinte.' },
+          { q: 'IRRF permite deduzir:', opts: ['Dependentes e pensão', 'Só salário', 'Nada', 'Só INSS'], correct: 0, explain: 'IRRF deduz dependentes, pensão e parte do INSS.' },
+          { q: 'Evento eSocial de remuneração:', opts: ['S-1200', 'S-2200', 'S-2299', 'S-3000'], correct: 0, explain: 'S-1200 envia remuneração até dia 15.' }
+        ]
+      },
+      { id: 'uc7c', title: 'Férias e 13º na Folha', icon: '🏖️',
+        theory: {
+          title: 'Verbas periódicas na folha',
+          text: 'Férias e 13º têm prazos e bases específicas. Errar gera pagamento em dobro ou multa.',
+          list: [
+            'Férias: 30 dias + 1/3, aviso com 30 dias',
+            'Pode parcelar em até 3 vezes (1 com 14 dias)',
+            '13º: 1ª parcela até 30/11, 2ª até 20/12',
+            'Cálculo do 13º: 1/12 por mês trabalhado',
+            'Faltas injustificadas não contam para 13º'
+          ],
+          exemplo: '15 dias ou mais no mês contam como mês cheio para 13º.'
+        },
+        questions: [
+          { q: 'Aviso de férias deve ser com:', opts: ['30 dias de antecedência', '15 dias', '7 dias', 'Nenhum'], correct: 0, explain: 'Aviso por escrito com 30 dias de antecedência.' },
+          { q: 'Férias podem ser parceladas em até:', opts: ['3 vezes', '2 vezes', '5 vezes', 'Não podem'], correct: 0, explain: 'Até 3 períodos, um com no mínimo 14 dias.' },
+          { q: '1ª parcela do 13º:', opts: ['Até 30 de novembro', 'Até 20 de dezembro', 'Até 31 de dezembro', 'Livre'], correct: 0, explain: '1ª parcela até 30/11 sem descontos.' },
+          { q: 'Fração de mês conta para 13º se:', opts: ['≥15 dias', '≥10 dias', '≥20 dias', 'Qualquer dia'], correct: 0, explain: 'Fração igual ou superior a 15 dias conta como mês.' },
+          { q: 'Férias vencidas não concedidas geram:', opts: ['Pagamento em dobro', 'Nada', 'Multa leve', 'Advertência'], correct: 0, explain: 'Art. 137 CLT: férias não concedidas no prazo são pagas em dobro.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC8 ============ */
+  {
+    id: 'uc8', name: 'UC8 · Desenvolvimento humano organizacional', icon: '🎓', color: 'green',
+    lessons: [
+      { id: 'uc8a', title: 'LNT e Capacitação', icon: '🔎',
+        theory: {
+          title: 'Levantamento de Necessidades de Treinamento',
+          text: 'Treinar sem diagnosticar gasta orçamento sem resolver. LNT identifica gaps de competência.',
+          list: [
+            'Analisar desempenho e metas',
+            'Ouvir gestores e colaboradores',
+            'Comparar competências atuais x necessárias',
+            'Priorizar gaps críticos',
+            'Definir indicadores de sucesso'
+          ],
+          exemplo: 'Treinar toda a equipe em Excel quando o gap é comunicação é desperdício.'
+        },
+        questions: [
+          { q: 'LNT significa:', opts: ['Levantamento de Necessidades de Treinamento', 'Lista de Novos Talentos', 'Linha de Nivelamento Técnico', 'Levantamento de Números'], correct: 0, explain: 'Identifica gaps antes de treinar.' },
+          { q: 'Primeiro passo da LNT:', opts: ['Analisar desempenho e metas', 'Contratar fornecedor', 'Agendar sala', 'Comprar curso'], correct: 0, explain: 'Sem diagnóstico, treinamento é chute.' },
+          { q: 'Indicador de sucesso do treinamento:', opts: ['Mudança de comportamento e resultado', 'Nº de participantes', 'Horas de curso', 'Certificados'], correct: 0, explain: 'Participação não mede resultado.' },
+          { q: 'Treinar sem LNT gera:', opts: ['Desperdício de orçamento', 'Engajamento', 'Retenção', 'Produtividade'], correct: 0, explain: 'Desalinhado, gasta verba sem resolver gap.' },
+          { q: 'Priorizar gaps críticos:', opts: ['Focar no que impacta resultado', 'Treinar tudo', 'Treinar o fácil', 'Treinar o caro'], correct: 0, explain: 'Priorize o que impacta meta e resultado.' }
+        ]
+      },
+      { id: 'uc8b', title: 'PDI e Carreira', icon: '📈',
+        theory: {
+          title: 'Desenvolvimento individual e trilhas',
+          text: 'PDI é combinado entre colaborador e gestor. Sem trilha clara, o talento busca crescimento fora.',
+          list: [
+            'Identificar gaps de competência',
+            'Metas SMART',
+            'Ações: curso, mentoria, projeto',
+            'Checkpoints e avaliação',
+            'Trilhas de carreira e sucessão'
+          ],
+          exemplo: 'Meta "melhorar comunicação" não é PDI. "Conduzir 3 reuniões mensais" é.'
+        },
+        questions: [
+          { q: 'PDI é combinado entre:', opts: ['Colaborador e gestor', 'Só RH', 'Só gestor', 'Só colaborador'], correct: 0, explain: 'Acordo entre colaborador e gestor com apoio do RH.' },
+          { q: 'Metas do PDI devem ser:', opts: ['SMART', 'Vagas', 'Genéricas', 'Secretas'], correct: 0, explain: 'SMART garante clareza e mensuração.' },
+          { q: 'Ação de desenvolvimento pode ser:', opts: ['Curso, mentoria ou projeto', 'Só curso', 'Só mentoria', 'Só promoção'], correct: 0, explain: 'Modelo 70-20-10: experiência, troca e formação.' },
+          { q: 'Sem trilha de carreira, risco é:', opts: ['Perder talentos', 'Aumentar salário', 'Reduzir custo', 'Melhorar clima'], correct: 0, explain: 'Falta de perspectiva acelera turnover.' },
+          { q: 'Checkpoints servem para:', opts: ['Acompanhar e ajustar', 'Burocracia', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Sem acompanhamento, PDI vira documento esquecido.' }
+        ]
+      },
+      { id: 'uc8c', title: 'Cultura e Clima', icon: '🌡️',
+        theory: {
+          title: 'Desenvolvimento humano e clima',
+          text: 'Clima é percepção; cultura é o que se pratica. DHO atua nos dois para sustentar engajamento.',
+          list: [
+            'Pesquisa de clima com anonimato',
+            'Ações de endomarketing',
+            'Programa de reconhecimento',
+            'Mediação de conflitos',
+            'Acompanhamento de indicadores'
+          ],
+          exemplo: 'Pesquisa sem devolutiva e ação gera descrédito.'
+        },
+        questions: [
+          { q: 'Clima é:', opts: ['Percepção das pessoas', 'Regra escrita', 'Salário', 'Benefício'], correct: 0, explain: 'Clima é percepção; cultura é prática.' },
+          { q: 'Pesquisa de clima precisa de:', opts: ['Anonimato e ação', 'Só anonimato', 'Só ação', 'Nenhum'], correct: 0, explain: 'Sem devolutiva e ação, perde credibilidade.' },
+          { q: 'Endomarketing serve para:', opts: ['Engajar internamente', 'Vender ao cliente', 'Demitir', 'Aumentar salário'], correct: 0, explain: 'Comunicação interna fortalece cultura e engajamento.' },
+          { q: 'Mediação de conflitos busca:', opts: ['Acordo e convivência', 'Culpado', 'Demissão', 'Punição'], correct: 0, explain: 'Objetivo é resolver e preservar o clima.' },
+          { q: 'Indicadores de clima servem para:', opts: ['Acompanhar evolução', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Medir permite agir com base em dados.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC9 ============ */
+  {
+    id: 'uc9', name: 'UC9 · Indicadores de gestão de pessoas', icon: '📊', color: 'blue',
+    lessons: [
+      { id: 'uc9a', title: 'Indicadores Essenciais', icon: '📈',
+        theory: {
+          title: 'O que medir em gestão de pessoas',
+          text: 'Indicador serve para decidir, não para decorar painel. Escolha poucos, mas críticos.',
+          list: [
+            'Turnover: entradas e saídas',
+            'Absenteísmo: faltas e atrasos',
+            'Tempo médio de contratação (time to hire)',
+            'Custo por contratação',
+            'eNPS: satisfação e recomendação'
+          ],
+          exemplo: 'Painel com 40 indicadores não ajuda. Foque em 5 a 8 críticos.'
+        },
+        questions: [
+          { q: 'Turnover mede:', opts: ['Rotatividade de pessoal', 'Absenteísmo', 'Produtividade', 'Salário'], correct: 0, explain: 'Entradas e saídas em relação ao quadro.' },
+          { q: 'Absenteísmo mede:', opts: ['Faltas e atrasos', 'Turnover', 'Salário', 'Meta'], correct: 0, explain: 'Ausências não programadas impactam produtividade.' },
+          { q: 'Time to hire é:', opts: ['Tempo entre abertura e contratação', 'Tempo de casa', 'Tempo de treinamento', 'Tempo de férias'], correct: 0, explain: 'Mede agilidade do recrutamento.' },
+          { q: 'eNPS mede:', opts: ['Satisfação e recomendação', 'Custo', 'Turnover', 'Salário'], correct: 0, explain: 'Employee Net Promoter Score: lealdade e engajamento.' },
+          { q: 'Bom painel de indicadores tem:', opts: ['5 a 8 indicadores críticos', '40 indicadores', '1 indicador', 'Nenhum'], correct: 0, explain: 'Foco em poucos críticos permite ação.' }
+        ]
+      },
+      { id: 'uc9b', title: 'Análise e Ação', icon: '🔬',
+        theory: {
+          title: 'Do dado à decisão',
+          text: 'Indicador sem interpretação vira número morto. Comparar, contextualizar e agir fecha o ciclo.',
+          list: [
+            'Comparar com meta e histórico',
+            'Segmentar por área, cargo, tempo de casa',
+            'Investigar causas raiz',
+            'Propor plano de ação',
+            'Acompanhar resultado'
+          ],
+          exemplo: 'Turnover alto na área X em 6 meses aponta causa local, não geral.'
+        },
+        questions: [
+          { q: 'Indicador sem interpretação:', opts: ['Vira número morto', 'Basta', 'É ideal', 'Não serve'], correct: 0, explain: 'Sem leitura e ação, o dado não muda nada.' },
+          { q: 'Segmentar por área serve para:', opts: ['Identificar onde está o problema', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Segmentação mostra onde agir primeiro.' },
+          { q: 'Investigar causa raiz é:', opts: ['Essencial para ação efetiva', 'Opcional', 'Proibido', 'Desnecessário'], correct: 0, explain: 'Sem causa raiz, ação é paliativo.' },
+          { q: 'Comparar com meta e histórico:', opts: ['Dá contexto ao número', 'É perda de tempo', 'Burocracia', 'Nada'], correct: 0, explain: 'Número solto não diz se está bom ou ruim.' },
+          { q: 'Após a ação, o RH deve:', opts: ['Acompanhar resultado', 'Arquivar', 'Ignorar', 'Demitir'], correct: 0, explain: 'Sem acompanhamento, não se sabe se funcionou.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC10 ============ */
+  {
+    id: 'uc10', name: 'UC10 · Representar o negócio internamente e externamente', icon: '🌐', color: 'purple',
+    lessons: [
+      { id: 'uc10a', title: 'RH como Parceiro Estratégico', icon: '🤝',
+        theory: {
+          title: 'Business Partner na prática',
+          text: 'RH estratégico entende o negócio e traduz pessoas em resultado. Sai do operacional e senta na mesa da decisão.',
+          list: [
+            'Entender o modelo de negócio',
+            'Traduzir necessidades de pessoas em linguagem de negócio',
+            'Participar do planejamento estratégico',
+            'Antecipar demanda de talentos',
+            'Medir impacto das ações de RH no resultado'
+          ],
+          exemplo: 'RH que só entrega folha não é chamado para decidir expansão. RH que mede impacto sim.'
+        },
+        questions: [
+          { q: 'RH estratégico atua:', opts: ['Como parceiro do negócio', 'Só operacional', 'Só folha', 'Só recrutamento'], correct: 0, explain: 'Sai do operacional e senta na mesa da decisão.' },
+          { q: 'Traduzir pessoas em linguagem de negócio é:', opts: ['Mostrar impacto em resultado', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Conecta ações de RH a indicadores de negócio.' },
+          { q: 'Antecipar demanda de talentos serve para:', opts: ['Preparar a empresa para o futuro', 'Burocracia', 'Demitir', 'Aumentar custo'], correct: 0, explain: 'Planejamento de sucessão e atração evita apagão.' },
+          { q: 'Medir impacto das ações de RH:', opts: ['Legitima o RH na mesa de decisão', 'É opcional', 'Atrasa', 'Não serve'], correct: 0, explain: 'Sem métrica, o RH não comprova valor.' },
+          { q: 'Participar do planejamento estratégico:', opts: ['É papel do RH estratégico', 'É proibido', 'Não serve', 'É opcional'], correct: 0, explain: 'RH estratégico integra o plano de negócio.' }
+        ]
+      },
+      { id: 'uc10b', title: 'Relações Internas e Externas', icon: '📣',
+        theory: {
+          title: 'Comunicação e representação',
+          text: 'RH representa a empresa em negociações, sindicatos, órgãos e na comunicação interna.',
+          list: [
+            'Negociação sindical e convenções coletivas',
+            'Comunicação interna clara e transparente',
+            'Relacionamento com órgãos públicos',
+            'Representação em eventos e redes',
+            'Marca empregadora'
+          ],
+          exemplo: 'Negociação sindical sem dado preparado enfraquece a empresa.'
+        },
+        questions: [
+          { q: 'Negociação sindical exige:', opts: ['Dados e preparo', 'Improviso', 'Nada', 'Só oratória'], correct: 0, explain: 'Sem dado, a empresa perde força na mesa.' },
+          { q: 'Comunicação interna eficaz:', opts: ['Clareza e transparência', 'Ruído', 'Silêncio', 'Boatos'], correct: 0, explain: 'Clareza reduz ruído e sustenta confiança.' },
+          { q: 'Marca empregadora é:', opts: ['Percepção da empresa como lugar para trabalhar', 'Só marketing', 'Só RH', 'Só diretoria'], correct: 0, explain: 'Impacta atração e retenção de talentos.' },
+          { q: 'Representar a empresa externamente:', opts: ['Faz parte do papel do RH', 'É proibido', 'Não serve', 'É opcional'], correct: 0, explain: 'RH representa em sindicatos, eventos e órgãos.' },
+          { q: 'Relacionamento com órgãos públicos serve para:', opts: ['Garantir conformidade e prazos', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Cumprir prazos e manter conformidade evita multa.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC11 ============ */
+  {
+    id: 'uc11', name: 'UC11 · Melhorias nos processos de gestão de pessoas', icon: '⚙️', color: 'orange',
+    lessons: [
+      { id: 'uc11a', title: 'Mapeamento de Processos', icon: '🗺️',
+        theory: {
+          title: 'Enxergar o processo para melhorar',
+          text: 'Sem mapear, não se sabe onde está o gargalo. Fluxograma e SIPOC ajudam a visualizar.',
+          list: [
+            'Fluxograma do processo atual',
+            'SIPOC: fornecedores, entradas, processo, saídas, clientes',
+            'Identificar gargalos e retrabalho',
+            'Medir tempo de ciclo',
+            'Priorizar melhorias por impacto'
+          ],
+          exemplo: 'Processo de admissão com 12 etapas manuais pode virar 5 com automação.'
+        },
+        questions: [
+          { q: 'SIPOC significa:', opts: ['Fornecedores, Entradas, Processo, Saídas, Clientes', 'Sistema Integrado', 'Só Processo', 'Manual'], correct: 0, explain: 'Ferramenta que mapeia o processo de ponta a ponta.' },
+          { q: 'Fluxograma serve para:', opts: ['Visualizar o processo', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Ajuda a enxergar etapas e decisões.' },
+          { q: 'Gargalo é:', opts: ['Ponto que trava o fluxo', 'Etapa rápida', 'Cliente', 'Saída'], correct: 0, explain: 'Onde o processo perde velocidade.' },
+          { q: 'Tempo de ciclo mede:', opts: ['Tempo total do processo', 'Só espera', 'Só execução', 'Nada'], correct: 0, explain: 'Tempo entre início e fim.' },
+          { q: 'Priorizar melhorias por impacto:', opts: ['Foca no que gera mais resultado', 'Melhora tudo', 'Ignora', 'Burocratiza'], correct: 0, explain: 'Comece pelo que gera mais resultado.' }
+        ]
+      },
+      { id: 'uc11b', title: 'Automação e Ferramentas', icon: '🤖',
+        theory: {
+          title: 'Tecnologia a favor do RH',
+          text: 'Automação reduz erro e libera o RH para o estratégico. ATS, HRIS e assinatura digital são base.',
+          list: [
+            'ATS: gestão de candidatos',
+            'HRIS: gestão de dados de pessoal',
+            'Assinatura digital de documentos',
+            'Automação de rotinas (férias, benefícios)',
+            'LGPD e segurança de dados'
+          ],
+          exemplo: 'Admissão digital reduz tempo e erro de digitação.'
+        },
+        questions: [
+          { q: 'ATS serve para:', opts: ['Gestão de candidatos', 'Folha', 'Benefícios', 'Ponto'], correct: 0, explain: 'Applicant Tracking System organiza o recrutamento.' },
+          { q: 'HRIS é:', opts: ['Sistema de gestão de dados de pessoal', 'Só folha', 'Só ponto', 'Só férias'], correct: 0, explain: 'Centraliza dados de RH.' },
+          { q: 'Assinatura digital:', opts: ['Agiliza e reduz papel', 'É ilegal', 'Não serve', 'Burocratiza'], correct: 0, explain: 'Tem validade jurídica e acelera processos.' },
+          { q: 'Automação de férias serve para:', opts: ['Reduzir erro e tempo', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Cálculo automático evita erro manual.' },
+          { q: 'LGPD na automação:', opts: ['Obrigatória', 'Opcional', 'Proibida', 'Desnecessária'], correct: 0, explain: 'Dados de pessoal exigem cuidado com segurança.' }
+        ]
+      }
+    ]
+  },
+  /* ============ UC12 ============ */
+  {
+    id: 'uc12', name: 'UC12 · Projeto Integrador em Recursos Humanos', icon: '👑', color: 'gold', crown: true,
+    lessons: [
+      { id: 'uc12a', title: 'Estrutura do Projeto Integrador', icon: '📐',
+        theory: {
+          title: 'O que um projeto integrador exige',
+          text: 'O Projeto Integrador sintetiza o curso. Precisa de problema real, diagnóstico, plano, execução e avaliação.',
+          list: [
+            'Tema e problema real',
+            'Diagnóstico com dados',
+            'Objetivos e metas SMART',
+            'Plano de ação com responsáveis',
+            'Indicadores de sucesso',
+            'Avaliação e apresentação'
+          ],
+          exemplo: 'Projeto Integrador sem dado vira opinião. Sem indicador, não dá para avaliar.'
+        },
+        questions: [
+          { q: 'Projeto Integrador começa por:', opts: ['Diagnóstico com dados', 'Execução', 'Apresentação', 'Compra'], correct: 0, explain: 'Sem diagnóstico, vira opinião.' },
+          { q: 'Metas devem ser:', opts: ['SMART', 'Vagas', 'Genéricas', 'Secretas'], correct: 0, explain: 'Clareza e mensuração são essenciais.' },
+          { q: 'Indicadores de sucesso servem para:', opts: ['Avaliar resultado', 'Burocracia', 'Demitir', 'Nada'], correct: 0, explain: 'Sem indicador, não há como avaliar.' },
+          { q: 'Plano de ação deve ter:', opts: ['Responsáveis e prazos', 'Só meta', 'Só orçamento', 'Só título'], correct: 0, explain: 'Ação sem dono não acontece.' },
+          { q: 'Avaliação final do projeto:', opts: ['Compara resultado com meta', 'É opcional', 'Não serve', 'Burocracia'], correct: 0, explain: 'Sem avaliação, não há aprendizado.' }
+        ]
+      },
+      { id: 'uc12b', title: 'Desafio: Mestre RH', icon: '👑', crown: true,
+        theory: {
+          title: 'O teste definitivo do curso',
+          text: 'Este é o desafio que separa quem estudou de quem domina. 10 perguntas misturando todas as UCs.',
+          list: [
+            'Combine múltiplas pistas antes de decidir',
+            'Sempre comece pelo mais simples',
+            'Confirme a causa antes de agir',
+            'Documente tudo'
+          ],
+          exemplo: 'Um Mestre RH não age por tentativa — diagnostica com precisão e age com segurança jurídica.'
+        },
+        questions: [
+          { q: 'Colaborador reclama de salário e ameaça sair. Primeiro passo?', opts: ['Ouvir e entender a causa real', 'Aumentar salário', 'Demitir', 'Ignorar'], correct: 0, explain: 'Ouvir antes de agir. A causa pode não ser salário.' },
+          { q: 'Três saídas da mesma área em 6 meses. O que fazer?', opts: ['Investigar liderança e processo', 'Ignorar', 'Demitir todos', 'Aumentar salário'], correct: 0, explain: 'Padrão aponta causa sistêmica.' },
+          { q: 'Gestante demitida sem justa causa. Consequência?', opts: ['Reintegração ou indenização', 'Nada', 'Elogio', 'Multa leve'], correct: 0, explain: 'Estabilidade garante reintegração ou indenização.' },
+          { q: 'Férias vencidas e não concedidas geram:', opts: ['Pagamento em dobro', 'Nada', 'Multa leve', 'Advertência'], correct: 0, explain: 'Art. 137 CLT: pagamento em dobro.' },
+          { q: 'Contrato de experiência pode ser prorrogado:', opts: ['Uma única vez', 'Duas', 'Três', 'Quantas quiser'], correct: 0, explain: '45 + 45 dias. Duas prorrogações tornam o contrato por prazo indeterminado.' },
+          { q: 'Dado sensível na LGPD inclui:', opts: ['Saúde e biometria', 'Nome', 'CPF', 'Endereço'], correct: 0, explain: 'Saúde, biometria, origem racial, religião.' },
+          { q: 'Prazo do FGTS:', opts: ['Até dia 7', 'Dia 15', 'Dia 20', 'Dia 30'], correct: 0, explain: 'FGTS até dia 7 do mês seguinte.' },
+          { q: 'S-2200 no eSocial é:', opts: ['Admissão', 'Remuneração', 'Desligamento', 'CAT'], correct: 0, explain: 'S-2200 envia admissão antes do início.' },
+          { q: 'Entrevista por competências usa:', opts: ['Método STAR', 'Método SBI', 'Método SMART', 'Método PDCA'], correct: 0, explain: 'STAR: Situação, Tarefa, Ação, Resultado.' },
+          { q: 'Turnover alto gera:', opts: ['Custo e perda de conhecimento', 'Economia', 'Engajamento', 'Retenção'], correct: 0, explain: 'Cada saída custa recrutamento, seleção, integração e produtividade.' }
+        ]
+      }
+    ]
+  }
+];
+
+/* ============================================================
+   LIGAS, MEDALHAS, ESTADO, NÍVEIS
+   ============================================================ */
+const LEAGUES = [
+  { id: 'bronze', name: 'Bronze', icon: '🥉', min: 0 },
+  { id: 'prata', name: 'Prata', icon: '🥈', min: 300 },
+  { id: 'ouro', name: 'Ouro', icon: '🥇', min: 800 },
+  { id: 'safira', name: 'Safira', icon: '💎', min: 1500 },
+  { id: 'rubi', name: 'Rubi', icon: '❤️‍🔥', min: 2500 },
+  { id: 'diamante', name: 'Diamante', icon: '💠', min: 4000 }
+];
+function leagueFor(xp) { let l = LEAGUES[0]; for (const l2 of LEAGUES) if (xp >= l2.min) l = l2; return l; }
+
+const HOOKS = {
+  uc1a: "Vaga aberta há 3 semanas e nenhum candidato qualificado apareceu. Onde está o erro?",
+  uc1b: "200 currículos e pouco tempo. Como separar o joio do trigo sem julgar pela aparência?",
+  uc1c: "Candidato responde tudo com 'eu faria...'. O que está faltando na sua entrevista?",
+  uc1d: "Você só usa entrevista. E se a competência principal for liderança sob pressão?",
+  uc2a: "Projeto de redução de turnover aprovado, mas ninguém sabe o que vai entregar. O que faltou?",
+  uc2b: "Projeto de avaliação de desempenho nasce boicotado pelos gestores. Por quê?",
+  uc2c: "Cronograma gigante, sem dono de entrega, sem folga. O que vai acontecer?",
+  uc3a: "Novo colaborador não sabe a quem pedir ajuda no primeiro dia. O que faltou?",
+  uc3b: "Colaborador com salário justo, mas desmotivado. O que está faltando?",
+  uc3c: "Evento anual de integração, mas ninguém se sente parte no dia a dia. O que está errado?",
+  uc4a: "Cargo sem indicador de desempenho. Como avaliar se está sendo bem executado?",
+  uc4b: "Avaliação só por escala gráfica. Qual o risco?",
+  uc4c: "'Você é desorganizado' é feedback? O que falta?",
+  uc5a: "Salário P90 para atrair talento. Qual o risco na folha?",
+  uc5b: "PLR sem meta clara. O que acontece?",
+  uc5c: "Colaborador não percebe o valor do pacote de benefícios. Por quê?",
+  uc6a: "Colaborador começa amanhã e a documentação está incompleta. O que fazer?",
+  uc6b: "Dependente continua no plano após desligamento. Quem paga a conta?",
+  uc6c: "Rescisão paga fora do prazo. Qual a consequência?",
+  uc7a: "Adicional noturno incide em todos os encargos? E o VT?",
+  uc7b: "INSS é alíquota única sobre o total? Você sabe mesmo?",
+  uc7c: "Férias vencidas e não concedidas. O que a lei diz?",
+  uc8a: "Treinar toda a equipe quando o gap é de outro setor. O que faltou?",
+  uc8b: "PDI com meta 'melhorar comunicação'. Isso funciona?",
+  uc8c: "Pesquisa de clima sem devolutiva. O que acontece?",
+  uc9a: "Painel com 40 indicadores. Isso ajuda?",
+  uc9b: "Turnover alto na área X. Como descobrir a causa?",
+  uc10a: "RH só entrega folha. Vai ser chamado para decidir expansão?",
+  uc10b: "Negociação sindical sem dado preparado. Qual o risco?",
+  uc11a: "Processo de admissão com 12 etapas manuais. Como melhorar?",
+  uc11b: "Admissão digital reduz tempo e erro. Você já pensou nisso?",
+  uc12a: "Projeto Integrador sem diagnóstico. Em que dá?",
+  uc12b: "Última fase: dez casos misturados, sem aviso da área. Você lembra por onde começar?"
+};
+const PRAISE = ['Correto!', 'Boa, profissional!', 'Diagnóstico certeiro!', 'É isso!', 'Você pegou a pista!'];
+
+function embaralharQ(q) {
+  const order = shuffle(q.opts.map((_, i) => i));
+  return { ...q, opts: order.map(i => q.opts[i]), correct: order.indexOf(q.correct) };
+}
+function lessonById(id) {
+  for (const u of UNITS) for (const l of u.lessons) if (l.id === id) return { unit: u, lesson: l };
+  for (const u of PROVAS) for (const l of u.lessons) if (l.id === id) return { unit: u, lesson: l };
+  return null;
+}
+
+/* ============ NÍVEIS — agrupam as UCs ============ */
+const LEVELS = [
+  { id: 'ini', name: 'Iniciante', icon: '🌱', color: 'var(--green)',
+    desc: 'UC1 e UC2: recrutar e selecionar pessoas; organizar projetos de RH. Sem pré-requisito.',
+    lessons: ['uc1a','uc1b','uc1c','uc1d','uc2a','uc2b','uc2c','prova_ini'] },
+  { id: 'apr', name: 'Aprendiz', icon: '🔧', color: 'var(--blue)',
+    desc: 'UC3 e UC4: integração, engajamento, cargos e avaliação de desempenho.',
+    lessons: ['uc3a','uc3b','uc3c','uc4a','uc4b','uc4c','prova_apr'] },
+  { id: 'pro', name: 'Profissional', icon: '💰', color: 'var(--orange)',
+    desc: 'UC5 e UC6: remuneração, benefícios, incentivos, admissão e demissão.',
+    lessons: ['uc5a','uc5b','uc5c','uc6a','uc6b','uc6c','prova_pro'] },
+  { id: 'esp', name: 'Especialista', icon: '⚖️', color: 'var(--pink)',
+    desc: 'UC7 e UC8: rotinas de folha e desenvolvimento humano organizacional.',
+    lessons: ['uc7a','uc7b','uc7c','uc8a','uc8b','uc8c','prova_esp'] },
+  { id: 'ges', name: 'Gestor', icon: '📊', color: 'var(--purple)',
+    desc: 'UC9, UC10 e UC11: indicadores, representação do negócio e melhorias de processos.',
+    lessons: ['uc9a','uc9b','uc10a','uc10b','uc11a','uc11b','prova_ges'] },
+  { id: 'mes', name: 'Mestre', icon: '👑', color: 'var(--gold)',
+    desc: 'UC12: Projeto Integrador e Desafio Mestre RH. A prova final do curso.',
+    lessons: ['uc12a','uc12b'] }
+];
+
+/* ============ PROVAS POR NÍVEL ============ */
+const PROVAS = [];
+[['ini','Prova do Iniciante','🎓','UC1 e UC2'],['apr','Prova do Aprendiz','🎓','UC3 e UC4'],['pro','Prova do Profissional','🎓','UC5 e UC6'],['esp','Prova do Especialista','🎓','UC7 e UC8'],['ges','Prova do Gestor','🎓','UC9, UC10 e UC11']].forEach(([lid, nome, ico, escopo]) => {
+  const lv = LEVELS.find(l => l.id === lid);
+  const pool = lv.lessons.filter(i => !i.startsWith('prova')).flatMap(i => lessonById(i).lesson.questions);
+  const unit = { id: 'prova_' + lid, name: nome, icon: ico, color: 'gold', lessons: [] };
+  unit.lessons.push({ id: 'prova_' + lid, title: nome, icon: ico, boss: true, sample: 10, questions: pool, scope: escopo });
+  PROVAS.push(unit);
+});
+
+function levelDone(lv) { return lv.lessons.every(id => state.completedLessons.includes(id)); }
+function levelUnlocked(i) { return i === 0 || levelDone(LEVELS[i - 1]); }
+let viewLevel = null;
+const TOTAL_LESSONS = UNITS.reduce((a, u) => a + u.lessons.length, 0) + PROVAS.length;
+
+function proximaLicao() {
+  for (let i = 0; i < LEVELS.length; i++) {
+    if (!levelUnlocked(i)) break;
+    for (const id of LEVELS[i].lessons) {
+      if (!state.completedLessons.includes(id)) { const f = lessonById(id); if (f) return { u: f.unit, l: f.lesson, lv: LEVELS[i] }; }
+    }
+  }
+  return null;
+}
+function continuarJornada() {
+  const n = proximaLicao();
+  if (n) iniciarLicao(n.u, n.l); else showToast('🏆 Todos os casos resolvidos! Toque numa lição para revisar.');
+}
+function atualizarHero() {
+  const n = proximaLicao();
+  const h = new Date().getHours();
+  const g = document.getElementById('heroGreet'); if (g) g.textContent = (h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite') + ', futuro profissional!';
+  const s = document.getElementById('heroSub');
+  if (s) s.textContent = n ? 'Nível ' + n.lv.name + ': ' + state.completedLessons.length + '/' + TOTAL_LESSONS + ' lições concluídas. Próximo: ' + n.l.title : 'Todas as lições do curso concluídas. Revise para fixar!';
+  const b = document.getElementById('heroCta'); if (b) b.textContent = n ? (state.completedLessons.length ? 'Continuar' : 'Começar') : 'Revisar';
+}
+function revelarPista() {
+  const items = [...document.querySelectorAll('.theory .clue')];
+  const next = items.find(el => !el.classList.contains('on'));
+  const btn = document.getElementById('clueBtn');
+  if (next) { next.classList.add('on'); next.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  const left = items.filter(el => !el.classList.contains('on')).length;
+  if (left === 0) { btn.textContent = 'Praticar agora'; btn.onclick = proximaEtapa; }
+  else btn.textContent = 'Próxima pista (' + (items.length - left) + '/' + items.length + ')';
+}
+
+const MEDALS = [
+  { id: 'uc1done', icon: '🔍', name: 'UC1 Concluída', desc: 'Complete UC1', check: s => UNITS[0].lessons.every(l => s.completedLessons.includes(l.id)) },
+  { id: 'uc2done', icon: '📊', name: 'UC2 Concluída', desc: 'Complete UC2', check: s => UNITS[1].lessons.every(l => s.completedLessons.includes(l.id)) },
+  { id: 'uc5done', icon: '💰', name: 'UC5 Concluída', desc: 'Complete UC5', check: s => UNITS[4].lessons.every(l => s.completedLessons.includes(l.id)) },
+  { id: 'uc7done', icon: '📊', name: 'UC7 Concluída', desc: 'Complete UC7', check: s => UNITS[6].lessons.every(l => s.completedLessons.includes(l.id)) },
+  { id: 'first', icon: '🌱', name: 'Primeiro Passo', desc: 'Complete 1 lição', check: s => s.lessonsCompleted >= 1 },
+  { id: 'five', icon: '🌿', name: 'Dedicado', desc: 'Complete 5 lições', check: s => s.lessonsCompleted >= 5 },
+  { id: 'fifteen', icon: '🌳', name: 'Comprometido', desc: 'Complete 15 lições', check: s => s.lessonsCompleted >= 15 },
+  { id: 'all', icon: '🏆', name: 'Mestre RH', desc: 'Complete todas as lições', check: s => s.lessonsCompleted >= TOTAL_LESSONS },
+  { id: 'perfect', icon: '💯', name: 'Perfeito', desc: '100% em uma lição', check: s => s.perfectLessons >= 1 },
+  { id: 'streak3', icon: '🔥', name: 'Em Chamas', desc: '3 dias de ofensiva', check: s => s.streak >= 3 },
+  { id: 'streak7', icon: '🔥🔥', name: 'Imparável', desc: '7 dias de ofensiva', check: s => s.streak >= 7 },
+  { id: 'xp1000', icon: '⭐', name: 'Colecionador', desc: '1000 XP acumulados', check: s => s.xpTotal >= 1000 },
+  { id: 'xp3000', icon: '🌟', name: 'Lenda', desc: '3000 XP acumulados', check: s => s.xpTotal >= 3000 },
+  { id: 'level5', icon: '👑', name: 'Nível 5', desc: 'Alcance o nível 5', check: s => s.level >= 5 },
+  { id: 'lvl1', icon: '🌱', name: 'Iniciante OK', desc: 'Passe na Prova do Iniciante', check: s => s.completedLessons.includes('prova_ini') },
+  { id: 'lvl2', icon: '🔧', name: 'Aprendiz OK', desc: 'Passe na Prova do Aprendiz', check: s => s.completedLessons.includes('prova_apr') },
+  { id: 'lvl3', icon: '💰', name: 'Profissional OK', desc: 'Passe na Prova do Profissional', check: s => s.completedLessons.includes('prova_pro') },
+  { id: 'lvl4', icon: '⚖️', name: 'Especialista OK', desc: 'Passe na Prova do Especialista', check: s => s.completedLessons.includes('prova_esp') },
+  { id: 'lvl5', icon: '📊', name: 'Gestor OK', desc: 'Passe na Prova do Gestor', check: s => s.completedLessons.includes('prova_ges') },
+  { id: 'crown', icon: '👑', name: 'Mestre Coroado', desc: 'Complete a UC12', check: s => s.completedLessons.includes('uc12b') }
+];
+
+const DEFAULT = {
+  xp: 0, xpTotal: 0, level: 1,
+  streak: 0, gems: 0,
+  hearts: 5, heartsMax: 5, heartsDate: null,
+  lessonsCompleted: 0, perfectLessons: 0, lastPlayed: null,
+  completedLessons: []
+};
+let state = { ...DEFAULT };
+function save() { try { localStorage.setItem('rh_quest_ucs_v1', JSON.stringify(state)); } catch(e){} }
+function load() { try { const r = localStorage.getItem('rh_quest_ucs_v1'); if (r) { const p = JSON.parse(r); state = { ...DEFAULT, ...p }; if (!Array.isArray(state.completedLessons)) state.completedLessons = []; } } catch(e) { state = { ...DEFAULT }; } }
+function xpForLevel(lvl) { return Math.floor(100 * Math.pow(1.4, lvl - 1)); }
+function addXp(amount) {
+  if (!Number.isFinite(amount) || amount < 0) return;
+  state.xp += amount; state.xpTotal += amount;
+  let leveled = false; let safety = 0;
+  while (state.xp >= xpForLevel(state.level) && safety < 1000) { safety++; state.xp -= xpForLevel(state.level); state.level++; leveled = true; }
+  if (leveled) { state.gems += 5; showToast('🏆 Nível ' + state.level + '! +5 💎'); }
+  save(); updateUI();
+}
+function refreshHearts() {
+  const hoje = new Date().toDateString();
+  if (state.heartsDate !== hoje) { state.hearts = state.heartsMax; state.heartsDate = hoje; save(); }
+}
+function refreshStreak() {
+  const hoje = new Date().toDateString();
+  const ontem = new Date(Date.now() - 86400000).toDateString();
+  if (state.lastPlayed === hoje) return { nova: false };
+  if (state.lastPlayed === ontem) state.streak++;
+  else state.streak = 1;
+  state.lastPlayed = hoje; save();
+  return { nova: true };
+}
+
+function updateUI() {
+  const el = (id) => document.getElementById(id);
+  if (el('sStreak')) el('sStreak').textContent = state.streak;
+  if (el('sHearts')) el('sHearts').textContent = state.hearts;
+  if (el('sGems')) el('sGems').textContent = state.gems;
+  if (el('sXp')) el('sXp').textContent = state.xpTotal;
+  if (el('sLevel')) el('sLevel').textContent = state.level;
+  const lg = leagueFor(state.xpTotal);
+  if (el('leagueIcon')) el('leagueIcon').textContent = lg.icon;
+  if (el('leagueName')) el('leagueName').textContent = 'Liga ' + lg.name;
+  if (el('leagueXp')) el('leagueXp').textContent = state.xpTotal + ' XP';
+  atualizarHero(); renderTrail(); renderMedals();
+}
+
+function renderLevels() {
+  const box = document.getElementById('levels'); if (!box) return;
+  const lv = LEVELS[viewLevel];
+  const tabs = LEVELS.map((l, i) => {
+    const ok = levelUnlocked(i);
+    const n = l.lessons.filter(id => state.completedLessons.includes(id)).length;
+    return `<button class="level-tab${i === viewLevel ? ' active' : ''}${ok ? '' : ' locked'}" style="--lc:${l.color}" data-i="${i}"><span class="lt-ico">${ok ? l.icon : '🔒'}</span><span class="lt-name">${l.name}</span><span class="lt-prog">${n}/${l.lessons.length}</span></button>`;
+  }).join('');
+  box.innerHTML = `<div class="level-tabs">${tabs}</div><p class="level-desc">${lv.desc}</p>`;
+  box.querySelectorAll('.level-tab').forEach(b => b.addEventListener('click', () => {
+    const i = parseInt(b.dataset.i, 10);
+    if (!levelUnlocked(i)) { showToast('🔒 Termine o nível ' + LEVELS[i - 1].name + ' para liberar'); return; }
+    viewLevel = i; renderTrail();
+  }));
+}
+function renderTrail() {
+  const trail = document.getElementById('trail'); if (!trail) return;
+  if (viewLevel === null) { viewLevel = LEVELS.findIndex(l => !levelDone(l)); if (viewLevel < 0) viewLevel = LEVELS.length - 1; }
+  renderLevels();
+  trail.innerHTML = '';
+  const unlockedLevel = levelUnlocked(viewLevel);
+  const items = LEVELS[viewLevel].lessons.map(lessonById).filter(Boolean);
+  const colors = { green: 'var(--green)', blue: 'var(--blue)', purple: 'var(--purple)', orange: 'var(--orange)', pink: 'var(--pink)', red: 'var(--red)', gold: 'var(--gold)' };
+  items.forEach((item, idx) => {
+    const { unit, lesson } = item;
+    if (idx === 0 || items[idx - 1].unit !== unit) {
+      const nDone = unit.lessons.filter(l => state.completedLessons.includes(l.id)).length;
+      const head = document.createElement('div');
+      head.className = 'unit-head';
+      head.innerHTML = `<div class="u-ico">${unit.icon}</div><div style="flex:1;min-width:0"><div class="u-name">${escapeHtml(unit.name)}</div><div class="u-txt">${nDone}/${unit.lessons.length} lições concluídas</div><div class="u-bar"><div class="u-fill" style="width:${Math.round(nDone / unit.lessons.length * 100)}%"></div></div></div>`;
+      trail.appendChild(head);
+    }
+    const done = state.completedLessons.includes(lesson.id);
+    const prevDone = idx === 0 ? unlockedLevel : state.completedLessons.includes(items[idx - 1].lesson.id);
+    const unlocked = unlockedLevel && prevDone;
+    const isCrown = !!(lesson.crown || lesson.boss);
+    const node = document.createElement('div');
+    node.className = 'trail-node ' + (idx % 2 === 0 ? 'left' : 'right');
+    let circleClass = 'node-circle ';
+    let inner = lesson.icon;
+    if (done) circleClass += isCrown ? 'crown' : 'completed';
+    else if (unlocked) circleClass += 'available';
+    else circleClass += isCrown ? 'crown locked-crown' : 'locked';
+    if (!done && !unlocked) inner = '🔒';
+    const colorStyle = (!done && unlocked) ? `style="background: linear-gradient(180deg, ${colors[unit.color] || colors.green}dd, ${colors[unit.color] || colors.green});"` : '';
+    const qCount = lesson.sample || lesson.questions.length;
+    node.innerHTML = `
+      <div class="node-tooltip">${escapeHtml(lesson.title)}</div>
+      <div class="${circleClass}" ${colorStyle}>${inner}</div>
+      <div class="node-info">
+        <h3>${escapeHtml(lesson.title)}</h3>
+        <p>${escapeHtml(unit.name)} · ${qCount} perguntas${lesson.boss ? ' · precisa de 70%' : ''}${lesson.crown ? ' · 👑 DESAFIO' : ''}</p>
+      </div>`;
+    if (unlocked || done) node.addEventListener('click', () => iniciarLicao(unit, lesson));
+    else node.style.cursor = 'not-allowed';
+    trail.appendChild(node);
+    if (idx < items.length - 1) {
+      const conn = document.createElement('div');
+      conn.className = 'trail-connector' + (done ? ' done' : '');
+      trail.appendChild(conn);
+    }
+  });
+}
+function renderMedals() {
+  const grid = document.getElementById('medals'); if (!grid) return;
+  grid.innerHTML = '';
+  MEDALS.forEach(m => {
+    const unlocked = m.check(state);
+    const div = document.createElement('div');
+    div.className = 'medal' + (unlocked ? ' unlocked' : '');
+    div.innerHTML = `<div class="medal-ico">${m.icon}</div><div class="medal-name">${escapeHtml(m.name)}</div><div class="medal-desc">${escapeHtml(m.desc)}</div>`;
+    grid.appendChild(div);
+  });
+}
+function showToast(msg) {
+  const t = document.getElementById('toast'); if (!t) return;
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2800);
+}
+function lancarConfetes() {
+  const container = document.getElementById('confetti'); if (!container) return;
+  container.innerHTML = '';
+  const colors = ['#58cc02','#1cb0f6','#ffc800','#ff4b4b','#ce82ff','#ff86d0'];
+  for (let i = 0; i < 80; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random() * 100 + '%';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = (2 + Math.random() * 2) + 's';
+    c.style.animationDelay = (Math.random() * 0.5) + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(c);
+  }
+  setTimeout(() => { container.innerHTML = ''; }, 4000);
+}
+function escapeHtml(str) { if (str === null || str === undefined) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* ============================================================
+   LIÇÃO
+   ============================================================ */
+let lesson = null;
+function iniciarLicao(unit, lessonData) {
+  if (!lessonData || !lessonData.questions || lessonData.questions.length === 0) { showToast('⚠️ Lição sem perguntas.'); return; }
+  if (state.hearts <= 0) { showToast('❤️ Sem corações! Volte amanhã.'); return; }
+  const questions = shuffle(lessonData.questions).slice(0, lessonData.sample || lessonData.questions.length).map(embaralharQ);
+  lesson = {
+    unit, lessonData,
+    steps: [...(HOOKS[lessonData.id] ? [{ type: 'hook', text: HOOKS[lessonData.id] }] : []), ...(lessonData.theory ? [{ type: 'theory', ...lessonData.theory }] : []), ...questions.map(q => ({ type: 'question', ...q }))],
+    stepIndex: 0, hearts: state.hearts,
+    correctCount: 0, firstTry: 0, combo: 0, qDone: 0, totalQuestions: questions.length,
+    xpEarned: 0, answered: false
+  };
+  document.getElementById('lessonOverlay').classList.add('active');
+  document.getElementById('liveHearts').textContent = lesson.hearts;
+  atualizarProgresso(); renderStep();
+}
+function atualizarProgresso() {
+  if (!lesson) return;
+  const total = lesson.steps.length;
+  const pct = Math.round((lesson.stepIndex / total) * 100);
+  const fill = document.getElementById('progFill'); if (fill) fill.style.width = pct + '%';
+  const xpPill = document.getElementById('xpPill'); if (xpPill) xpPill.textContent = '+' + lesson.xpEarned + ' XP';
+  const counter = document.getElementById('lessonCounter');
+  if (counter) { counter.textContent = Math.min(lesson.qDone, lesson.totalQuestions) + '/' + lesson.totalQuestions; }
+}
+function renderStep() {
+  if (!lesson) return;
+  const body = document.getElementById('lessonBody');
+  const step = lesson.steps[lesson.stepIndex];
+  const fb = document.getElementById('feedback'); if (fb) fb.classList.remove('show');
+  if (!step) { finalizar(); return; }
+  if (step.type === 'hook') {
+    body.innerHTML = `<div class="hook"><div class="hook-flag">🕵️ Caso real</div><p class="hook-text">${escapeHtml(step.text)}</p><p class="hook-ask">Guarde o seu palpite. A resposta vem nas próximas telas.</p></div><button class="btn btn-green btn-block" onclick="proximaEtapa()">Investigar o caso</button>`;
+    atualizarProgresso(); return;
+  }
+  if (step.type === 'theory') {
+    const listHtml = (step.list || []).map((i, n) => `<li class="clue${n === 0 ? ' on' : ''}">${escapeHtml(i)}</li>`).join('');
+    const totalClues = (step.list || []).length + (step.exemplo ? 1 : 0);
+    body.innerHTML = `
+      <div class="theory">
+        <div class="theory-flag">📖 Teoria</div>
+        <h2>${escapeHtml(step.title || '')}</h2>
+        <p class="lead">${escapeHtml(step.text || '')}</p>
+        <ul>${listHtml}</ul>
+        ${step.exemplo ? `<div class="exemplo clue">🎬 ${escapeHtml(step.exemplo)}</div>` : ''}
+      </div>
+      <button class="btn btn-green btn-block" id="clueBtn" onclick="${totalClues > 1 ? 'revelarPista()' : 'proximaEtapa()'}">${totalClues > 1 ? 'Próxima pista (1/' + totalClues + ')' : 'Praticar agora'}</button>`;
+    atualizarProgresso(); return;
+  }
+  const letras = ['A','B','C','D'];
+  const qText = escapeHtml(step.q).replace(/\n/g, '<br>');
+  body.innerHTML = `
+    <div class="q-header">
+      <span class="q-sub">${step.retry ? '🔁 Revisão: você errou esta' : 'Pergunta ' + Math.min(lesson.qDone + 1, lesson.totalQuestions) + ' de ' + lesson.totalQuestions}</span>
+      ${qText}
+    </div>
+    <div class="options">
+      ${(step.opts || []).map((opt, i) => `
+        <button class="option" data-i="${i}">
+          <span class="option-letter">${letras[i] || '?'}</span>
+          <span>${escapeHtml(opt)}</span>
+        </button>`).join('')}
+    </div>`;
+  body.querySelectorAll('.option').forEach(btn => {
+    btn.addEventListener('click', () => responder(parseInt(btn.dataset.i, 10)));
+  });
+  lesson.answered = false;
+  atualizarProgresso();
+}
+function responder(idx) {
+  if (!lesson || lesson.answered) return;
+  lesson.answered = true;
+  const step = lesson.steps[lesson.stepIndex]; if (!step) return;
+  const options = document.querySelectorAll('.option');
+  const correct = idx === step.correct;
+  options.forEach((el, i) => {
+    el.classList.add('disabled'); el.style.pointerEvents = 'none';
+    if (i === step.correct) el.classList.add('correct');
+    if (i === idx && !correct) el.classList.add('wrong');
+  });
+  const fb = document.getElementById('feedback');
+  const ico = document.getElementById('fbIco');
+  const title = document.getElementById('fbTitle');
+  const explain = document.getElementById('fbExplain');
+  if (correct) {
+    lesson.qDone += step.retry ? 0 : 1; lesson.correctCount++; lesson.combo++; if (!step.retry) { lesson.firstTry++; lesson.xpEarned += 10 + (lesson.combo >= 3 ? 5 : 0); }
+    fb.className = 'feedback show win'; ico.textContent = '✓';
+    title.textContent = lesson.combo >= 3 ? '🔥 Combo x' + lesson.combo + '! +5 XP' : PRAISE[Math.floor(Math.random() * PRAISE.length)]; explain.textContent = step.explain || '';
+    document.getElementById('xpPill').textContent = '+' + lesson.xpEarned + ' XP';
+  } else {
+    lesson.qDone += step.retry ? 0 : 1; lesson.combo = 0; if (!step.retry) lesson.steps.push(embaralharQ({ ...step, retry: true }));
+    lesson.hearts--; state.hearts = Math.max(0, state.hearts - 1);
+    save(); updateUI();
+    document.getElementById('liveHearts').textContent = lesson.hearts;
+    fb.className = 'feedback show lose'; ico.textContent = '✕';
+    title.textContent = step.retry ? 'Quase!' : 'Quase! Essa volta no final.'; explain.textContent = step.explain || '';
+    const bar = document.querySelector('.overlay-bar');
+    if (bar) { bar.classList.add('shake'); setTimeout(() => bar.classList.remove('shake'), 400); }
+  }
+  if (lesson.hearts <= 0) setTimeout(() => finalizar(true), 1300);
+}
+function proximaEtapa() {
+  if (!lesson) return;
+  lesson.stepIndex++;
+  if (lesson.stepIndex >= lesson.steps.length) finalizar();
+  else renderStep();
+}
+function finalizar(gameOver = false) {
+  if (!lesson) return;
+  const fb = document.getElementById('feedback'); if (fb) fb.classList.remove('show');
+  const body = document.getElementById('lessonBody');
+  const fill = document.getElementById('progFill'); if (fill) fill.style.width = '100%';
+  const total = lesson.totalQuestions;
+  const acertos = lesson.firstTry;
+  const perfeito = acertos === total && !gameOver && total > 0;
+  const exigeNota = !!(lesson.lessonData.boss || lesson.lessonData.crown);
+  const passou = !exigeNota || (total > 0 && acertos / total >= 0.7);
+  let nivelNovo = null;
+  if (!gameOver) {
+    if (passou && !state.completedLessons.includes(lesson.lessonData.id)) {
+      const li = LEVELS.findIndex(l => l.lessons.includes(lesson.lessonData.id));
+      const antes = li >= 0 && levelDone(LEVELS[li]);
+      state.completedLessons.push(lesson.lessonData.id); state.lessonsCompleted++;
+      if (li >= 0 && !antes && levelDone(LEVELS[li])) nivelNovo = li;
+    }
+    if (perfeito) state.perfectLessons++;
+    addXp(lesson.xpEarned);
+  }
+  if (!gameOver && passou) setTimeout(lancarConfetes, 100);
+  if (perfeito) { state.gems += 2; save(); updateUI(); }
+  let emoji, title, sub;
+  if (gameOver) { emoji = '💔'; title = 'Vidas esgotadas!'; sub = 'Volte amanhã com 5 corações novos.'; }
+  else if (perfeito) { emoji = '🏆'; title = 'PERFEITO!'; sub = '+2 💎 de bônus!'; }
+  else if (total > 0 && acertos >= total / 2) { emoji = '💪'; title = 'Bom trabalho!'; sub = `Você acertou ${acertos} de ${total}.`; }
+  else { emoji = '📚'; title = 'Continue tentando!'; sub = `Você acertou ${acertos} de ${total}.`; }
+  const isCrown = !!(lesson.lessonData.crown && passou);
+  if (!gameOver && exigeNota && !passou) { emoji = '🔁'; title = 'Quase lá!'; sub = `Você precisa de 70% para passar e fez ${acertos} de ${total}. Revise e tente de novo.`; }
+  else if (nivelNovo !== null && !isCrown && !gameOver) {
+    const prox = LEVELS[nivelNovo + 1];
+    emoji = '🎓'; title = 'Nível ' + LEVELS[nivelNovo].name + ' concluído!';
+    sub = prox ? 'Você liberou o nível ' + prox.name + '.' : 'Você concluiu todos os níveis!';
+    if (prox) viewLevel = nivelNovo + 1;
+    setTimeout(lancarConfetes, 600);
+  }
+  else if (isCrown && !gameOver) { emoji = '👑'; title = 'MESTRE RH!'; sub = 'Você completou a UC12 — Projeto Integrador!'; setTimeout(lancarConfetes, 200); setTimeout(lancarConfetes, 800); }
+  body.innerHTML = `
+    <div class="result">
+      <div class="result-emoji">${emoji}</div>
+      <div class="result-title ${perfeito || isCrown ? 'win' : ''}">${title}</div>
+      <div class="result-sub">${sub}</div>
+      <div class="result-grid">
+        <div class="result-stat g"><div class="v">+${lesson.xpEarned + (perfeito ? 20 : 0)}</div><div class="l">XP</div></div>
+        <div class="result-stat gr"><div class="v">${acertos}/${total}</div><div class="l">Acertos</div></div>
+        <div class="result-stat b"><div class="v">🔥${state.streak}</div><div class="l">Ofensiva</div></div>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-green btn-block" onclick="fecharLicao()">CONTINUAR</button>
+        <button class="btn btn-outline btn-block" onclick="repetir()">${!gameOver && !perfeito ? 'TENTAR NOVAMENTE' : 'REPETIR LIÇÃO'}</button>
+      </div>
+    </div>`;
+  if (perfeito && !gameOver) {
+    state.xp += 20; state.xpTotal += 20;
+    let leveled = false; let safety = 0;
+    while (state.xp >= xpForLevel(state.level) && safety < 1000) { safety++; state.xp -= xpForLevel(state.level); state.level++; leveled = true; }
+    if (leveled) state.gems += 5;
+    save(); updateUI();
+  }
+}
+function repetir() { if (!lesson) return; const u = lesson.unit, l = lesson.lessonData; iniciarLicao(u, l); }
+function fecharLicao() { const overlay = document.getElementById('lessonOverlay'); if (overlay) overlay.classList.remove('active'); lesson = null; }
+function confirmarSaida() {
+  if (lesson && lesson.stepIndex > 0 && lesson.stepIndex < lesson.steps.length) { if (!confirm('Sair da lição? Seu progresso será perdido.')) return; }
+  fecharLicao();
+}
+function mostrarWelcome() {
+  const w = document.getElementById('welcomeModal'); if (!w) return;
+  document.getElementById('wStreak').textContent = state.streak;
+  document.getElementById('wXp').textContent = state.xpTotal;
+  document.getElementById('wHearts').textContent = state.hearts;
+  w.classList.add('active');
+}
+function fecharWelcome() { const w = document.getElementById('welcomeModal'); if (w) w.classList.remove('active'); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  load(); refreshHearts();
+  const streakInfo = refreshStreak();
+  setTimeout(() => { const s = document.getElementById('splash'); if (s) s.classList.add('hidden'); }, 1600);
+  setTimeout(() => { if (streakInfo.nova && state.lessonsCompleted > 0) mostrarWelcome(); }, 1900);
+  updateUI();
+});
+</script>
+</body>
+</html>
